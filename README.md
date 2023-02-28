@@ -10,16 +10,13 @@ thường manager không có thông tin ở trường report_to).
 + Giao task cho employee.
 - Employee:
 + Xem các tasks được giao. 
-+ Check thông báo deadline (Do thầy yêu cầu làm.
-Deadline được config báo trước cho employee một 
-vài ngày, tuần, tháng, ...v.v)
-
++ Check deadline (Thầy yêu cầu dù chức năng này t cũng chưa rõ ý thầy lắm)
 + ------------------Giao việc--------------------
 
 - A Lư làm dashboard, quản lý account (Quản lý bảng account).
 - A Phúc làm CRUD employee (Quản lý bảng profile).
-- Khánh làm giao manager giao task cho employee, employee
-check task và cũng như thông báo deadline của mình.
+- Khánh làm manager giao task cho employee, employee
+check task và deadline.
 - Triệu làm quản lý lương (Quản lý bảng payroll)
 
 * Note: Project mình cũng sẽ sử dụng dependency injection và 
