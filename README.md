@@ -17,3 +17,6 @@
 - A Phúc làm CRUD employee (Quản lý bảng profile).
 - Khánh làm task (có check deadline, notify cho nhân viên)
 - Triệu làm payroll
+
+* Note: Project mình cũng sẽ sử dụng dependency injection và 
+cách tổ chức source code theo repository pattern như assignment1 nhé.
