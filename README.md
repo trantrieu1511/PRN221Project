@@ -16,7 +16,7 @@ thường manager không có thông tin ở trường report_to).
 - A Lư làm dashboard, quản lý account (Quản lý bảng account).
 - A Phúc làm CRUD employee (Quản lý bảng profile).
 - Khánh làm manager giao task cho employee, employee
-check task và deadline.
+check task. Check deadline.
 - Triệu làm quản lý lương (Quản lý bảng payroll)
 
 * Note: Project mình cũng sẽ sử dụng dependency injection và 
