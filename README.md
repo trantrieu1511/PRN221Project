@@ -10,7 +10,7 @@ thường manager không có thông tin ở trường report_to).
 + Giao task cho employee.
 - Employee:
 + Xem các tasks được giao. 
-+ Check deadline (Thầy yêu cầu dù chức năng này t cũng chưa rõ ý thầy lắm)
++ Check deadline (Thầy yêu cầu dù chức năng này e cũng chưa rõ ý thầy lắm)
 + ------------------Giao việc--------------------
 
 - A Lư làm dashboard, quản lý account (Quản lý bảng account).
