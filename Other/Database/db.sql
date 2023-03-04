@@ -2,15 +2,15 @@
 USE PRN221_QLNS
 --DROP DATABASE PRN221_QLNS
 
-CREATE TABLE [jobs] (
+CREATE TABLE [job] (
 	job_id INT IDENTITY(1,1) PRIMARY KEY,
 	job_title VARCHAR (35) NOT NULL,
 	min_salary DECIMAL (8, 2) DEFAULT NULL,
 	max_salary DECIMAL (8, 2) DEFAULT NULL
 );
 
---drop table [departments]
-CREATE TABLE [departments] (
+--drop table [department]
+CREATE TABLE [department] (
 	department_id INT IDENTITY(1,1) PRIMARY KEY,
 	department_name VARCHAR (30) NOT NULL,
 );
@@ -27,8 +27,8 @@ CREATE TABLE [profile] (
 	department_id INT NULL,
 	report_to int NULL,
 	annual_leave INT DEFAULT 12 NOT NULL,
-	FOREIGN KEY (job_id) REFERENCES jobs (job_id),
-	FOREIGN KEY (department_id) REFERENCES departments (department_id),
+	FOREIGN KEY (job_id) REFERENCES job (job_id),
+	FOREIGN KEY (department_id) REFERENCES department (department_id),
 	FOREIGN KEY (report_to) REFERENCES [profile] (profile_id)
 );
 
@@ -62,38 +62,6 @@ CREATE TABLE [salary] (
 	FOREIGN KEY (profile_id) REFERENCES [profile] (profile_id)
 );
 
-CREATE TABLE [profileDetail] (
-    profile_id int,
-	dob VARCHAR(20) NOT NULL,
-	address VARCHAR(150) NOT NULL,
-	gender BIT NOT NULL,
-	country VARCHAR(20) NOT NULL,
-	religion VARCHAR(20) NOT NULL,
-	isMarried BIT NOT NULL,
-	children INT NULL,
-	bank_name VARCHAR(20) NOT NULL,
-	bank_number VARCHAR(20) NOT NULL,
-	FOREIGN KEY (profile_id) REFERENCES [profile] (profile_id)
-);
-
-CREATE TABLE [familyInfo] ( 
-    profile_id int,
-	name VARCHAR(50) NOT NULL,
-	relationship VARCHAR(20) NOT NULL,
-	dob VARCHAR (20),
-	phone VARCHAR(20) NOT NULL,
-	FOREIGN KEY (profile_id) REFERENCES [profile] (profile_id)
-);
-
---drop table [experience]
-CREATE TABLE [experience] (
-    profile_id int,
-	role VARCHAR(100) NOT NULL,
-	start_date varchar(20) NOT NULL,
-	end_date varchar(20) NULL,
-	FOREIGN KEY (profile_id) REFERENCES [profile] (profile_id)
-);
-
 CREATE TABLE [company] (
     company_id INT IDENTITY(1,1) PRIMARY KEY,
 	company_name VARCHAR (25) NOT NULL,
@@ -117,8 +85,8 @@ CREATE TABLE [myCompany] (
 	FOREIGN KEY (profile_id) REFERENCES [profile] (profile_id)
 	);
 
---drop table clients
-CREATE TABLE [clients] (
+--drop table client
+CREATE TABLE [client] (
 	client_id INT IDENTITY primary key,
 	first_name VARCHAR (20) DEFAULT NULL,
 	last_name VARCHAR (25) NOT NULL,
@@ -150,7 +118,7 @@ CREATE TABLE [schedule](
 	FOREIGN KEY (profile_id) REFERENCES [profile] (profile_id)
 );
 
---drop table projects
+--drop table project
 CREATE TABLE [project] (
    title VARCHAR (35) PRIMARY KEY,
    client_id int,
@@ -159,7 +127,7 @@ CREATE TABLE [project] (
    manager_id int,
    description VARCHAR(255),
    status INT,
-   FOREIGN KEY (client_id) REFERENCES [clients] (client_id),
+   FOREIGN KEY (client_id) REFERENCES [client] (client_id),
    FOREIGN KEY (manager_id) REFERENCES [profile] (profile_id),
 );
 

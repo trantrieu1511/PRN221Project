@@ -1,15 +1,15 @@
-select * from departments
+select * from department
 select * from [profile]
 select * from [profileDetail]
 select * from [experience]
 select * from [familyInfo]
-select * from jobs
-select * from [profile] where report_to = 'MRAAA'
-select * from account where profile_id = 'ABCDE'
+select * from job
+select * from [profile] where report_to = 1
+select * from account where profile_id = 1
 select * from attendance
 select * from account
-select * from projects
-select * from clients
+select * from project
+select * from client
 select * from schedule
 select * from [shift]
 
@@ -21,25 +21,19 @@ where first_name + last_name like '%m%' order by [profile].profile_id asc
 select * from [profile] p, account a where
 p.profile_id = a.profile_id
 
---add account
-insert into account(profile_id,username,[password],isadmin,ismanager) values ('MA001', 'admin', 'admin',1,0)
-insert into account(profile_id,username,[password],isadmin,ismanager) values ('TT002', 'trantrieu123', '12345678',0,1)
-insert into account(profile_id,username,[password],isadmin,ismanager) values ('MA003', 'mra', 'mra',0,1)
-insert into account values ('MBEAN', 'mrbean', 'mbean', 0,0)
 
+--insert job
+insert into job(job_title) values('Web Designer')
+insert into job(job_title) values('Web Developer')
+insert into job(job_title) values('UI/UX Developer')
+insert into job(job_title) values('Software Tester')
+insert into job(job_title) values('Software Engineer')
+insert into job(job_title) values('Android Developer')
+insert into job(job_title) values('Ios Developer')
 
---insert jobs
-insert into jobs(job_title) values('Web Designer')
-insert into jobs(job_title) values('Web Developer')
-insert into jobs(job_title) values('UI/UX Developer')
-insert into jobs(job_title) values('Software Tester')
-insert into jobs(job_title) values('Software Engineer')
-insert into jobs(job_title) values('Android Developer')
-insert into jobs(job_title) values('Ios Developer')
-
---insert departments
-insert into departments(department_name) values('IT Management')
-insert into departments([department_name]) values('Web Development')
+--insert department
+insert into department(department_name) values('IT Management')
+insert into department([department_name]) values('Web Development')
 
 --get Generated ProfileID
 select top 1 profile_id from [profile]
@@ -47,7 +41,7 @@ order by id desc
 
 select * from schedule
 -- schedule
-insert into schedule values('TT002','shift1')
+insert into schedule values(3,'shift1')
 delete from schedule
 
 --insert admin
@@ -63,48 +57,42 @@ values ('mr', 'a', 'MRA@gmail.com', '0246813579', '12/07/2022', 1, 1)
 
 --insert staff
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id,report_to)
-values ('MR', 'ASDFG', 'MRASDFG@gmail.com', '01234xxxxx', GETDATE(), 1, 1, 'ABCDE')
+values ('MR', 'ASDFG', 'MRASDFG@gmail.com', '01234xxxxx', GETDATE(), 1, 1, 1)
 
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id,report_to)
-values ('Christiano', 'Ronaldo', 'christianoronaldo@gmail.com', '123456789', GETDATE(), 3, 2, 'ABCDE')
+values ('Christiano', 'Ronaldo', 'christianoronaldo@gmail.com', '123456789', GETDATE(), 3, 2, 1)
 
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id,report_to)
-values ('MR', 'ASDFG', 'MRASDFG@gmail.com', '01234xxxxx', GETDATE(), 1, 1, 'ABCDE')
+values ('MR', 'ASDFG', 'MRASDFG@gmail.com', '01234xxxxx', GETDATE(), 1, 1, 1)
 
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id,report_to)
-values ('mr', 'delete', 'mrdelete@gmail.com', 'mrdelete', GETDATE(), 1, 1, 'ABCDE')
+values ('mr', 'delete', 'mrdelete@gmail.com', 'mrdelete', GETDATE(), 1, 1, 1)
 
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id,report_to)
-values ('mr', 'delete', 'mrdelete@gmail.com', 'mrdelete', GETDATE(), 1, 1, 'ABCDE')
+values ('mr', 'delete', 'mrdelete@gmail.com', 'mrdelete', GETDATE(), 1, 1, 1)
 
 -- select account
 select * from account
 
 --delete acc
-delete from account where profile_id = 'MBEAN'
+delete from account where profile_id = 2
 
 -- insert account
-insert into account values ('ASDFG', 'asdfg', 'asdfg', 0,0)
-insert into account values ('AAAAA', 'aaaaa', 'aaaaa', 0,0)
-insert into account values ('MRDEL', 'mrdel', 'mrdel', 0,0)
-insert into account values ('ABCDE', 'trantrieu123', '12345678', 0,1)
+insert into account values ('b', 'b', 0,0)
+insert into account values ('a', 'a', 0,0)
+insert into account values ('mrdel', 'mrdel', 0,0)
+insert into account values ('trantrieu123', '12345678', 0,1)
 
 
 
 --update acc
 update account
 set
-profile_id = 'TT002' where profile_id = 'ABCDE'
+profile_id = 3 where profile_id = 1
 
 --remove staff
-select * from [Profile]
-select * from [Profile] where ReportsTo = 'ABCDE';
-
-delete from [Profile]
-where profile_id = 'MRAYY'
-delete from [Profile]
-where profile_id = 'MRSTA'
-
+select * from [Profile] where profile_id = 6
+select * from [Profile] where ReportsTo = 1
 
 
 
@@ -112,29 +100,29 @@ where profile_id = 'MRSTA'
 		select p.profile_id, p.first_name, p.last_name, p.email, p.phone_number, 
 		p.hire_date, j.job_title, d.department_name, p.salary, p.report_to,
 		a.username, a.[password], a.isadmin
-		from [profile] p, departments d, jobs j, account a
+		from [profile] p, department d, job j, account a
 		where p.job_id = j.job_id and p.department_id = d.department_id and p.profile_id = a.profile_id
-		and report_to = 'ABCDE'
+		and report_to = 1
 
 -- Select all profile
 	select p.profile_id, p.first_name, p.last_name, p.email, p.phone_number, 
 	p.hire_date, j.job_title, d.department_name, p.salary, p.report_to,
 	a.username, a.[password], a.isadmin
-	from [profile] p, departments d, jobs j, account a
+	from [profile] p, department d, job j, account a
 	where p.job_id = j.job_id and p.department_id = d.department_id and p.profile_id = a.profile_id
 	
 	select p.*
-	from [profile] p, departments d, jobs j, account a
+	from [profile] p, department d, job j, account a
 	where p.job_id = j.job_id and p.department_id = d.department_id and p.profile_id = a.profile_id
 	and a.profile_id = p.profile_id
 	
 
-	select j.* from jobs j, [profile] p where j.job_id = p.job_id and p.report_to is not null
-	select d.* from departments d, [profile] p where d.department_id = p.department_id and p.report_to = 'ABCDE'
+	select j.* from job j, [profile] p where j.job_id = p.job_id and p.report_to is not null
+	select d.* from department d, [profile] p where d.department_id = p.department_id and p.report_to = 1
  
 -- update
 update [Profile] set profile_id = 'ABABA', first_name = 'a', last_name = 'b', email = 'ab@gmail.com', phone_number = '0321656489', hire_date = GETDATE(), job_id = 2,
-salary = 0, ReportsTo = 'ABCDE', department_id = 2, username = 'ab', [password] = 'ab', img = '' where profile_id = 'ab'
+salary = 0, ReportsTo = 1, department_id = 2, username = 'ab', [password] = 'ab', img = '' where profile_id = 'ab'
 
 update [Profile]
 set 
@@ -146,20 +134,20 @@ hire_date = '03/07/2022'
 --department_id = 1,
 --job_id = 1,
 --salary = 0, 
---report_to = 'ABCDE'
-where profile_id = 'ABCDE'
+--report_to = 1
+where profile_id = 1
 
 --search by name
 select * from [profile]
-where report_to = 'ABCDE'
+where report_to = 1
 and first_name + last_name like '%r%'
 --search by id
 select * from [profile]
-where report_to = 'ABCDE'
+where report_to = 1
 and profile_id like '%m%'
 --search by job
 select * from [profile]
-where report_to = 'ABCDE'
+where report_to = 1
 and job_id = '3'
 -- filter staff
 --search with job
@@ -167,108 +155,20 @@ select * from [profile] where profile_id like '%m%' and job_id = 1	and first_nam
 --search without job
 select * from [profile] where profile_id like '%m%' and first_name + last_name like '%a%' and report_to is not null
 
---select clients
-select * from clients cl join projects pj 
+--select client
+select * from client cl join project pj 
 on cl.client_id = pj.client_id
 
-select id, client_id, first_name, last_name, email, phone_number, clients.company_id, company.company_name from clients join
-company on clients.company_id = company.company_id 
-order by clients.client_id asc
+select id, client_id, first_name, last_name, email, phone_number, client.company_id, company.company_name from client join
+company on client.company_id = company.company_id 
+order by client.client_id asc
+
 
 -- filter client
 --search with company name
-select * from [clients] where client_id like '%%' and company_id = ''
+select * from [client] where client_id like '%%' and company_id = ''
 --search without company name
-select * from [clients] where client_id like '%%' and first_name + last_name like '%%'
-
---select profileDetail
-select * from [profile] where profile_id = 'AAAAA'
-select * from [profileDetail] where profile_id = 'AAAAA'
-
---insert profileDetail
-insert into profileDetail
-values ('TT002', '15/11/2002', 'so nha 16, to 19, phuong Tan Thinh, tp HB, tinh HB', 1, 'Vietnam', 'no', 0, 0, 'BIDV', '0321654687')
-
-insert into [profileDetail]
-values ('MRNEW', GETDATE(), 'so nha 16, to 19, phuong Tan Thinh, tp HB, tinh HB', 'true', 'Vietnam', 'no', 'false', 0, 'BIDV', '03216546879')
-
-
-
---select familyInfo
-select * from [familyInfo]
-
---insert familyInfo
-insert into [familyInfo]
-values ('ABCDE','Nguyen Thi Oanh','mother','1900-01-01','123456789')
-
---select experience
-select * from [experience]
-
---insert experience
-insert into [experience]
-values ('ABCDE', 'Web Designer at...','1900-01-01','1900-01-01')
-insert into [experience]
-values ('MRNEW', 'N/A','1900-01-01','2022-06-18')
-insert into [experience]
-values ('MBEAN', 'N/A','1900-01-01','2022-06-18')
-insert into [experience]
-values ('MRAAA', 'N/A','1900-01-01','2022-06-18')
-insert into [experience]
-values ('MRDEL', 'N/A','1900-01-01','2022-06-18')
-insert into [experience]
-values ('MRBBB', 'N/A','1900-01-01','2022-06-18')
-
-insert into [experience]
-values ('MRDDD', 'N/A','1900-01-01',GETDATE())
-
-
--- update profileDetail
-update [profileDetail]
-set 
-dob = '1900-01-01',
-address = 'N/A',
-gender = 1,
-country = 'N/A',
-religion = 'N/A',
-isMarried = 1,
-children = 2,
-bank_name = 'N/A',
-bank_number = 'N/A'
-where profile_id = 'ABCDE'
-
--- update familyInfo
-select * from [familyInfo]
-update [familyInfo]
-set
-[name] = 'N/A',
-relationship = 'N/A',
-dob = '1973-03-12',
-phone = 'N/A'
-where 
-profile_id = 'ABCDE' 
-and [name] = 'N/A'
-
---update experience
-select * from experience
-update [experience]
-set
-[role] = 'mra second biggest role 2',
-[start_date] = '2020-06-22',
-[end_date] = '2022-06-22'
-where profile_id = 'ABCDE'
-and [role] = 'mra second biggest role'
-
---delete profileDetail
-delete from [profileDetail]
-where profile_id = 'MRNEW'
-
---delete familyInfo
-delete from [familyInfo]
-where profile_id = 'ABCDE' and [name] = 'N/A'
-
---delete experience
-delete from [experience]
-where profile_id = 'ABCDE' and [role] = 'N/A'
+select * from [client] where client_id like '%%' and first_name + last_name like '%%'
 
 
 -- select all info of a staff profile
@@ -280,27 +180,27 @@ select p.profile_id, p.first_name, p.last_name, p.email, p.phone_number, p.hire_
 p.department_id, p.salary, p.report_to, a.username, a.[password], a.isadmin, a.ismanager
 from [profile] p, [account] a 
 where p.profile_id = a.profile_id 
-and p.report_to = 'ABCDE'
+and p.report_to = 1
 
 
--- clients
+-- client
 select client_id, first_name, last_name, email,
-phone_number, company_id, company_name from clients join 
-company on clients.company = company.company_id
+phone_number, company_id, company_name from client join 
+company on client.company = company.company_id
 
-select * from clients
-insert into clients 
-values('CL002', 'mr', 'client2', 'mrclient2@mail.com', '0123456789','C-Company')
+select * from client
+insert into client 
+values(1, 'mr', 'client2', 'mrclient2@mail.com', '0123456789','C-Company')
 
-delete from clients where client_id = '1'
+delete from client where client_id = '1'
 
-insert into clients 
+insert into client 
 values('1', 'mr', 'client', 'mrclient@mail.com', '0123456789','C-Company')
-select * from projects
+select * from project
 
 -- edit client
-select * from clients
-update [clients]
+select * from client
+update [client]
 set
 --first_name = 'mra',
 --last_name = 'mra',
@@ -323,7 +223,7 @@ insert into [company](company_name) values('Wellware Company')
 --edit company
 update [company] set company_name = 'C Company' where company_id = 3
 
---select all profile
+--select all profile with salary
 select * from account
 select p.*, s.basic_salary, s.DA, s.HRA, s.conveyance, s.allowance, s.medical_allowance,
 s.TDS, s.ESI, s.PF, s.leave, s.loan, s.professional_tax, ((basic_salary+DA+HRA+conveyance+allowance+medical_allowance)-(TDS+ESI+PF+leave+loan+professional_tax)) as net_salary,
@@ -338,15 +238,15 @@ where a.isadmin != 1
 select * from salary
 
 select s.*, ((basic_salary+HRA+conveyance+allowance+medical_allowance)-(TDS+ESI+PF+leave+loan+professional_tax)) as net_salary from salary s
-where profile_id = 'ABCDE'
+where profile_id = 1
 
 select s.*, ((basic_salary+HRA+conveyance+allowance+medical_allowance)-(TDS+ESI+PF+leave+loan+professional_tax)) as net_salary from salary s 
-where profile_id = 'ABCDE'
+where profile_id = 1
 
 --add salary
 select * from [profile]
 insert into salary 
-values('MRTTT', 100000, 100, 0, 0, 0, 100, 20, 0, 0, 10, 0, 10, '01/07/2022')
+values(5, 100000, 100, 0, 0, 0, 100, 20, 0, 0, 10, 0, 10, '01/07/2022')
 select * from salary
 --edit salary
 update salary
@@ -367,7 +267,7 @@ professional_tax = 30
 where profile_id = 'SSSSS'
 
 --delete salary
-delete from salary where profile_id = 'AAAAA' and basic_salary = 250
+delete from salary where profile_id = 4 and basic_salary = 250
 
 select * from account
 
@@ -450,51 +350,11 @@ on p.profile_id = a.profile_id
 full outer join [salary] s
 on p.profile_id = s.profile_id
 where a.isadmin != 1
-and report_to = 'ABCDE'
+and report_to = 1
 order by p.profile_id asc
 
---projects
-select * from projects
-
---leave type
-select * from leaveType
-
-insert into leaveType([name]) values('Medical Leave')
-insert into leaveType([name]) values('Casual Leave')
-insert into leaveType([name]) values('Paternity Leave')
-insert into leaveType([name]) values('Maternity Leave')
-insert into leaveType([name]) values('LOP')
-insert into leaveType([name]) values('Hospitalisation')
-
---leave
-select * from [profile] where profile_id = 'NULL'
-select * from leave
---myLeave list select query
-select p.report_to, l.* 
-from leave l join [profile] p
-on l.profile_id = p.profile_id
-where l.profile_id = 'TT002'
-
-
---checkLeave list select query
-select p.first_name, p.last_name, p.job_id, l.* 
-from leave l join [profile] p
-on l.profile_id = p.profile_id
-where p.report_to = 'TT002'
-
---insert into leave
-insert into leave(profile_id, leave_type, [from], [to], number_of_days, reason)
-values('TT002', 2, '13/07/2022', '16/07/2022', DATEDIFF(DAY,'2022-07-13','2022-07-16'), 'Going to Town')
-
---edit leave
-update leave
-set number_of_days = 2
-where id = 1
-
---delete leave
-delete from leave where profile_id = ''
+--project
+select * from project
 
 --account management
 SELECT profile.*, account.* FROM [account], [profile] WHERE account.profile_id = profile.profile_id and report_to is NULL
-
---
