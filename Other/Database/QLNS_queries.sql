@@ -1,3 +1,5 @@
+use PRN221_QLNS
+
 select * from department
 select * from [profile]
 select * from [profileDetail]

@@ -33,6 +33,7 @@ CREATE TABLE [profile] (
 );
 
 CREATE TABLE [account] (
+	acc_id int identity primary key
     profile_id int,
 	username VARCHAR(20) NOT NULL,
 	password VARCHAR(20) NOT NULL, 
