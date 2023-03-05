@@ -10,23 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace QLNS
 {
     /// <summary>
-    /// Interaction logic for DashboardWindow.xaml
+    /// Interaction logic for Dashboard.xaml
     /// </summary>
-    public partial class DashboardWindow : UserControl
+    public partial class Dashboard : UserControl
     {
-        public DashboardWindow()
+        public Dashboard()
         {
             InitializeComponent();
-        }
-
-        private void btnExit_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

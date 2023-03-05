@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccess.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,19 +20,36 @@ namespace QLNS
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        private readonly IAccountRespository accountRespository;
+      
+        public LoginWindow(IAccountRespository _accountRespository)
         {
+            accountRespository= _accountRespository;
             InitializeComponent();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-
-        }
+            string username = txtEmail.Text.ToString();
+            string password = txtPassword.Password.ToString();
+            if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
+            {
+                if(accountRespository.FindByEmailAndPassword(username, password)!=null)
+                {
+                    MessageBox.Show("ok");
+                }
+            }
+            }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
+        }
 
+        private void btnForgot_Click(object sender, RoutedEventArgs e)
+        {
+            ForgotWindow forgotWindow= new ForgotWindow();
+            forgotWindow.Show();
         }
     }
 }
