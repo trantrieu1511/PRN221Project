@@ -44,7 +44,7 @@ namespace BusinessObject.Models
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.HasKey(e => e.ProfileId)
-                    .HasName("PK__account__AEBB701F182FAD6D");
+                    .HasName("PK__account__AEBB701FDEB19642");
 
                 entity.ToTable("account");
 
@@ -83,7 +83,7 @@ namespace BusinessObject.Models
             modelBuilder.Entity<Attendance>(entity =>
             {
                 entity.HasKey(e => e.ShiftId)
-                    .HasName("PK__attendan__7B2672209479FD77");
+                    .HasName("PK__attendan__7B267220EE736B29");
 
                 entity.ToTable("attendance");
 
@@ -208,7 +208,7 @@ namespace BusinessObject.Models
             modelBuilder.Entity<MyCompany>(entity =>
             {
                 entity.HasKey(e => e.CompanyId)
-                    .HasName("PK__myCompan__3E267235858309AB");
+                    .HasName("PK__myCompan__3E26723572FFA3A0");
 
                 entity.ToTable("myCompany");
 
@@ -335,7 +335,7 @@ namespace BusinessObject.Models
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(e => e.Title)
-                    .HasName("PK__project__E52A1BB2BFBA1F14");
+                    .HasName("PK__project__E52A1BB2AC88799F");
 
                 entity.ToTable("project");
 
@@ -377,12 +377,14 @@ namespace BusinessObject.Models
 
             modelBuilder.Entity<Salary>(entity =>
             {
-                entity.HasKey(e => e.PayslipNumber)
-                    .HasName("PK__salary__4BFC70656967C185");
+                entity.HasKey(e => e.ProfileId)
+                    .HasName("PK__salary__AEBB701FD37F3836");
 
                 entity.ToTable("salary");
 
-                entity.Property(e => e.PayslipNumber).HasColumnName("payslip_number");
+                entity.Property(e => e.ProfileId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("profile_id");
 
                 entity.Property(e => e.Allowance)
                     .HasColumnType("decimal(8, 2)")
@@ -434,15 +436,14 @@ namespace BusinessObject.Models
                     .HasColumnType("decimal(8, 2)")
                     .HasColumnName("professional_tax");
 
-                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-
                 entity.Property(e => e.Tds)
                     .HasColumnType("decimal(8, 2)")
                     .HasColumnName("TDS");
 
                 entity.HasOne(d => d.Profile)
-                    .WithMany(p => p.Salaries)
-                    .HasForeignKey(d => d.ProfileId)
+                    .WithOne(p => p.Salary)
+                    .HasForeignKey<Salary>(d => d.ProfileId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__salary__create_d__3E52440B");
             });
 
@@ -468,7 +469,7 @@ namespace BusinessObject.Models
             modelBuilder.Entity<Shift>(entity =>
             {
                 entity.HasKey(e => e.Name)
-                    .HasName("PK__shift__72E12F1A7CBC1920");
+                    .HasName("PK__shift__72E12F1ADBF53171");
 
                 entity.ToTable("shift");
 

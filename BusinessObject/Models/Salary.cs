@@ -5,8 +5,7 @@ namespace BusinessObject.Models
 {
     public partial class Salary
     {
-        public int PayslipNumber { get; set; }
-        public int? ProfileId { get; set; }
+        public int ProfileId { get; set; }
         public decimal BasicSalary { get; set; }
         public decimal? Da { get; set; }
         public decimal? Hra { get; set; }

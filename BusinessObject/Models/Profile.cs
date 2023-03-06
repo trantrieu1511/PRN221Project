@@ -10,7 +10,6 @@ namespace BusinessObject.Models
             InverseReportToNavigation = new HashSet<Profile>();
             MyCompanies = new HashSet<MyCompany>();
             Projects = new HashSet<Project>();
-            Salaries = new HashSet<Salary>();
             Tasks = new HashSet<Task>();
         }
 
@@ -29,10 +28,10 @@ namespace BusinessObject.Models
         public virtual Job Job { get; set; }
         public virtual Profile ReportToNavigation { get; set; }
         public virtual Account Account { get; set; }
+        public virtual Salary Salary { get; set; }
         public virtual ICollection<Profile> InverseReportToNavigation { get; set; }
         public virtual ICollection<MyCompany> MyCompanies { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<Salary> Salaries { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
     }
 }
