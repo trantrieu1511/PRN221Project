@@ -38,6 +38,7 @@ namespace QLNS
                 {
                     LayerWindow layerWindow = new LayerWindow();
                     layerWindow.Show();
+                    WpfMessageBox.Show("LOGIN THANH CONG");
                 }
             }
         }

@@ -5,8 +5,8 @@ namespace BusinessObject.Models
 {
     public partial class Shift
     {
-        public string Name { get; set; } = null!;
-        public string StartTime { get; set; } = null!;
-        public string EndTime { get; set; } = null!;
+        public string Name { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }

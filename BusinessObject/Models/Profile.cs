@@ -15,19 +15,20 @@ namespace BusinessObject.Models
         }
 
         public int ProfileId { get; set; }
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string? PhoneNumber { get; set; }
-        public string HireDate { get; set; } = null!;
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string HireDate { get; set; }
         public int? JobId { get; set; }
         public int? DepartmentId { get; set; }
         public int? ReportTo { get; set; }
         public int AnnualLeave { get; set; }
 
-        public virtual Department? Department { get; set; }
-        public virtual Job? Job { get; set; }
-        public virtual Profile? ReportToNavigation { get; set; }
+        public virtual Department Department { get; set; }
+        public virtual Job Job { get; set; }
+        public virtual Profile ReportToNavigation { get; set; }
+        public virtual Account Account { get; set; }
         public virtual ICollection<Profile> InverseReportToNavigation { get; set; }
         public virtual ICollection<MyCompany> MyCompanies { get; set; }
         public virtual ICollection<Project> Projects { get; set; }

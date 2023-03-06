@@ -5,13 +5,13 @@ namespace BusinessObject.Models
 {
     public partial class Account
     {
-        public int? ProfileId { get; set; }
-        public string Username { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        public int ProfileId { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public bool Isadmin { get; set; }
         public bool Ismanager { get; set; }
         public bool? Status { get; set; }
 
-        public virtual Profile? Profile { get; set; }
+        public virtual Profile Profile { get; set; }
     }
 }

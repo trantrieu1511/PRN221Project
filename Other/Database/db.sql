@@ -45,8 +45,7 @@ CREATE TABLE [account] (
 
 --drop table salary
 CREATE TABLE [salary] (
-	payslip_number INT IDENTITY(1,1) PRIMARY KEY,
-    profile_id int,
+	profile_id INT PRIMARY KEY,
 	basic_salary DECIMAL (8, 2) NOT NULL,
 	DA DECIMAL (8, 2) DEFAULT NULL,
 	HRA DECIMAL (8, 2) DEFAULT NULL,

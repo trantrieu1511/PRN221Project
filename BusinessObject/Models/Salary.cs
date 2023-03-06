@@ -19,8 +19,8 @@ namespace BusinessObject.Models
         public decimal? Leave { get; set; }
         public decimal? Loan { get; set; }
         public decimal? ProfessionalTax { get; set; }
-        public string CreateDate { get; set; } = null!;
+        public string CreateDate { get; set; }
 
-        public virtual Profile? Profile { get; set; }
+        public virtual Profile Profile { get; set; }
     }
 }

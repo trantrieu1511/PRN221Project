@@ -11,7 +11,7 @@ namespace BusinessObject.Models
         }
 
         public int CompanyId { get; set; }
-        public string CompanyName { get; set; } = null!;
+        public string CompanyName { get; set; }
 
         public virtual ICollection<Client> Clients { get; set; }
     }

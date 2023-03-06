@@ -16,29 +16,26 @@ namespace BusinessObject.Models
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; } = null!;
-        public virtual DbSet<Attendance> Attendances { get; set; } = null!;
-        public virtual DbSet<Client> Clients { get; set; } = null!;
-        public virtual DbSet<Company> Companies { get; set; } = null!;
-        public virtual DbSet<Department> Departments { get; set; } = null!;
-        public virtual DbSet<Experience> Experiences { get; set; } = null!;
-        public virtual DbSet<FamilyInfo> FamilyInfos { get; set; } = null!;
-        public virtual DbSet<Job> Jobs { get; set; } = null!;
-        public virtual DbSet<MyCompany> MyCompanies { get; set; } = null!;
-        public virtual DbSet<Profile> Profiles { get; set; } = null!;
-        public virtual DbSet<ProfileDetail> ProfileDetails { get; set; } = null!;
-        public virtual DbSet<Project> Projects { get; set; } = null!;
-        public virtual DbSet<Salary> Salaries { get; set; } = null!;
-        public virtual DbSet<Schedule> Schedules { get; set; } = null!;
-        public virtual DbSet<Shift> Shifts { get; set; } = null!;
-        public virtual DbSet<Task> Tasks { get; set; } = null!;
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Job> Jobs { get; set; }
+        public virtual DbSet<MyCompany> MyCompanies { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Salary> Salaries { get; set; }
+        public virtual DbSet<Schedule> Schedules { get; set; }
+        public virtual DbSet<Shift> Shifts { get; set; }
+        public virtual DbSet<Task> Tasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server = localhost; database = PRN221_QLNS; uid=sa; pwd=123456");
+                optionsBuilder.UseSqlServer("server=localhost;database=PRN221_QLNS;uid=sa;pwd=12345678;");
             }
         }
 
@@ -46,20 +43,24 @@ namespace BusinessObject.Models
         {
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.ProfileId)
+                    .HasName("PK__account__AEBB701F182FAD6D");
 
                 entity.ToTable("account");
+
+                entity.Property(e => e.ProfileId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("profile_id");
 
                 entity.Property(e => e.Isadmin).HasColumnName("isadmin");
 
                 entity.Property(e => e.Ismanager).HasColumnName("ismanager");
 
                 entity.Property(e => e.Password)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("password");
-
-                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
 
                 entity.Property(e => e.Status)
                     .IsRequired()
@@ -67,26 +68,29 @@ namespace BusinessObject.Models
                     .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Username)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("username");
 
                 entity.HasOne(d => d.Profile)
-                    .WithMany()
-                    .HasForeignKey(d => d.ProfileId)
-                    .HasConstraintName("FK__account__profile__300424B4");
+                    .WithOne(p => p.Account)
+                    .HasForeignKey<Account>(d => d.ProfileId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__account__profile__30F848ED");
             });
 
             modelBuilder.Entity<Attendance>(entity =>
             {
                 entity.HasKey(e => e.ShiftId)
-                    .HasName("PK__attendan__7B26722087993CAF");
+                    .HasName("PK__attendan__7B2672209479FD77");
 
                 entity.ToTable("attendance");
 
                 entity.Property(e => e.ShiftId).HasColumnName("shift_id");
 
                 entity.Property(e => e.Date)
+                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("date");
@@ -99,16 +103,19 @@ namespace BusinessObject.Models
                     .HasColumnName("note");
 
                 entity.Property(e => e.ProductionTime)
+                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("production_time");
 
                 entity.Property(e => e.TimeIn)
+                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("time_in");
 
                 entity.Property(e => e.TimeOut)
+                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("time_out");
@@ -116,13 +123,14 @@ namespace BusinessObject.Models
 
             modelBuilder.Entity<Client>(entity =>
             {
-                entity.ToTable("clients");
+                entity.ToTable("client");
 
                 entity.Property(e => e.ClientId).HasColumnName("client_id");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.Email)
+                    .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("email");
@@ -133,6 +141,7 @@ namespace BusinessObject.Models
                     .HasColumnName("first_name");
 
                 entity.Property(e => e.LastName)
+                    .IsRequired()
                     .HasMaxLength(25)
                     .IsUnicode(false)
                     .HasColumnName("last_name");
@@ -146,7 +155,7 @@ namespace BusinessObject.Models
                     .WithMany(p => p.Clients)
                     .HasForeignKey(d => d.CompanyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__clients__company__4CA06362");
+                    .HasConstraintName("FK__client__company___47DBAE45");
             });
 
             modelBuilder.Entity<Company>(entity =>
@@ -156,6 +165,7 @@ namespace BusinessObject.Models
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.CompanyName)
+                    .IsRequired()
                     .HasMaxLength(25)
                     .IsUnicode(false)
                     .HasColumnName("company_name");
@@ -163,86 +173,25 @@ namespace BusinessObject.Models
 
             modelBuilder.Entity<Department>(entity =>
             {
-                entity.ToTable("departments");
+                entity.ToTable("department");
 
                 entity.Property(e => e.DepartmentId).HasColumnName("department_id");
 
                 entity.Property(e => e.DepartmentName)
+                    .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("department_name");
             });
 
-            modelBuilder.Entity<Experience>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("experience");
-
-                entity.Property(e => e.EndDate)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("end_date");
-
-                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-
-                entity.Property(e => e.Role)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("role");
-
-                entity.Property(e => e.StartDate)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("start_date");
-
-                entity.HasOne(d => d.Profile)
-                    .WithMany()
-                    .HasForeignKey(d => d.ProfileId)
-                    .HasConstraintName("FK__experienc__profi__4316F928");
-            });
-
-            modelBuilder.Entity<FamilyInfo>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("familyInfo");
-
-                entity.Property(e => e.Dob)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("dob");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Phone)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("phone");
-
-                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-
-                entity.Property(e => e.Relationship)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("relationship");
-
-                entity.HasOne(d => d.Profile)
-                    .WithMany()
-                    .HasForeignKey(d => d.ProfileId)
-                    .HasConstraintName("FK__familyInf__profi__412EB0B6");
-            });
-
             modelBuilder.Entity<Job>(entity =>
             {
-                entity.ToTable("jobs");
+                entity.ToTable("job");
 
                 entity.Property(e => e.JobId).HasColumnName("job_id");
 
                 entity.Property(e => e.JobTitle)
+                    .IsRequired()
                     .HasMaxLength(35)
                     .IsUnicode(false)
                     .HasColumnName("job_title");
@@ -259,33 +208,38 @@ namespace BusinessObject.Models
             modelBuilder.Entity<MyCompany>(entity =>
             {
                 entity.HasKey(e => e.CompanyId)
-                    .HasName("PK__myCompan__3E267235AC6506D1");
+                    .HasName("PK__myCompan__3E267235858309AB");
 
                 entity.ToTable("myCompany");
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.CompanyAddress)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("company_address");
 
                 entity.Property(e => e.CompanyCity)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("company_city");
 
                 entity.Property(e => e.CompanyCountry)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("company_country");
 
                 entity.Property(e => e.CompanyEmail)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("company_email");
 
                 entity.Property(e => e.CompanyName)
+                    .IsRequired()
                     .HasMaxLength(25)
                     .IsUnicode(false)
                     .HasColumnName("company_name");
@@ -293,6 +247,7 @@ namespace BusinessObject.Models
                 entity.Property(e => e.CompanyPnumber).HasColumnName("company_pnumber");
 
                 entity.Property(e => e.CompanyProvince)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("company_province");
@@ -304,6 +259,7 @@ namespace BusinessObject.Models
                 entity.Property(e => e.ProfileId).HasColumnName("profile_id");
 
                 entity.Property(e => e.WebsiteUrl)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("website_url");
@@ -312,7 +268,7 @@ namespace BusinessObject.Models
                     .WithMany(p => p.MyCompanies)
                     .HasForeignKey(d => d.ProfileId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__myCompany__profi__47DBAE45");
+                    .HasConstraintName("FK__myCompany__profi__4316F928");
             });
 
             modelBuilder.Entity<Profile>(entity =>
@@ -328,16 +284,19 @@ namespace BusinessObject.Models
                 entity.Property(e => e.DepartmentId).HasColumnName("department_id");
 
                 entity.Property(e => e.Email)
+                    .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("email");
 
                 entity.Property(e => e.FirstName)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("first_name");
 
                 entity.Property(e => e.HireDate)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("hire_date");
@@ -345,6 +304,7 @@ namespace BusinessObject.Models
                 entity.Property(e => e.JobId).HasColumnName("job_id");
 
                 entity.Property(e => e.LastName)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("last_name");
@@ -372,60 +332,10 @@ namespace BusinessObject.Models
                     .HasConstraintName("FK__profile__report___2D27B809");
             });
 
-            modelBuilder.Entity<ProfileDetail>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("profileDetail");
-
-                entity.Property(e => e.Address)
-                    .HasMaxLength(150)
-                    .IsUnicode(false)
-                    .HasColumnName("address");
-
-                entity.Property(e => e.BankName)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("bank_name");
-
-                entity.Property(e => e.BankNumber)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("bank_number");
-
-                entity.Property(e => e.Children).HasColumnName("children");
-
-                entity.Property(e => e.Country)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("country");
-
-                entity.Property(e => e.Dob)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("dob");
-
-                entity.Property(e => e.Gender).HasColumnName("gender");
-
-                entity.Property(e => e.IsMarried).HasColumnName("isMarried");
-
-                entity.Property(e => e.ProfileId).HasColumnName("profile_id");
-
-                entity.Property(e => e.Religion)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("religion");
-
-                entity.HasOne(d => d.Profile)
-                    .WithMany()
-                    .HasForeignKey(d => d.ProfileId)
-                    .HasConstraintName("FK__profileDe__profi__3F466844");
-            });
-
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(e => e.Title)
-                    .HasName("PK__project__E52A1BB2EDBB8A3E");
+                    .HasName("PK__project__E52A1BB2BFBA1F14");
 
                 entity.ToTable("project");
 
@@ -457,18 +367,18 @@ namespace BusinessObject.Models
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ClientId)
-                    .HasConstraintName("FK__project__client___5535A963");
+                    .HasConstraintName("FK__project__client___5070F446");
 
                 entity.HasOne(d => d.Manager)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.ManagerId)
-                    .HasConstraintName("FK__project__manager__5629CD9C");
+                    .HasConstraintName("FK__project__manager__5165187F");
             });
 
             modelBuilder.Entity<Salary>(entity =>
             {
                 entity.HasKey(e => e.PayslipNumber)
-                    .HasName("PK__salary__4BFC7065A14370EA");
+                    .HasName("PK__salary__4BFC70656967C185");
 
                 entity.ToTable("salary");
 
@@ -487,6 +397,7 @@ namespace BusinessObject.Models
                     .HasColumnName("conveyance");
 
                 entity.Property(e => e.CreateDate)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("create_date");
@@ -532,7 +443,7 @@ namespace BusinessObject.Models
                 entity.HasOne(d => d.Profile)
                     .WithMany(p => p.Salaries)
                     .HasForeignKey(d => d.ProfileId)
-                    .HasConstraintName("FK__salary__create_d__3D5E1FD2");
+                    .HasConstraintName("FK__salary__create_d__3E52440B");
             });
 
             modelBuilder.Entity<Schedule>(entity =>
@@ -551,13 +462,13 @@ namespace BusinessObject.Models
                 entity.HasOne(d => d.Profile)
                     .WithMany()
                     .HasForeignKey(d => d.ProfileId)
-                    .HasConstraintName("FK__schedule__profil__52593CB8");
+                    .HasConstraintName("FK__schedule__profil__4D94879B");
             });
 
             modelBuilder.Entity<Shift>(entity =>
             {
                 entity.HasKey(e => e.Name)
-                    .HasName("PK__shift__72E12F1A7FB91B91");
+                    .HasName("PK__shift__72E12F1A7CBC1920");
 
                 entity.ToTable("shift");
 
@@ -567,11 +478,13 @@ namespace BusinessObject.Models
                     .HasColumnName("name");
 
                 entity.Property(e => e.EndTime)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("end_time");
 
                 entity.Property(e => e.StartTime)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("start_time");
@@ -607,12 +520,12 @@ namespace BusinessObject.Models
                 entity.HasOne(d => d.AssignedNavigation)
                     .WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.Assigned)
-                    .HasConstraintName("FK__task__assigned__59063A47");
+                    .HasConstraintName("FK__task__assigned__5441852A");
 
                 entity.HasOne(d => d.ProjectNavigation)
                     .WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.Project)
-                    .HasConstraintName("FK__task__project__59FA5E80");
+                    .HasConstraintName("FK__task__project__5535A963");
             });
 
             OnModelCreatingPartial(modelBuilder);
