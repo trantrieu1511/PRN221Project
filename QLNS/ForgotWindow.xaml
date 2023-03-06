@@ -29,11 +29,28 @@
                         <TextBox x:Name="txtEmail" Margin="10 0" materialDesign:HintAssist.Hint="Enter Username / Email" Foreground="Black" Width="250" BorderBrush="Black" CaretBrush="#FFD94448" SelectionBrush="#FFD94448" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10"/>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                  
+                        <materialDesign:PackIcon Kind="AccountKeyOutline"   Width="25" Height="25" Foreground="Black"/>
+                        <TextBox IsEnabled="False" x:Name="txtCode" Margin="10 0" materialDesign:HintAssist.Hint="Enter Code " Foreground="Black" Width="250" BorderBrush="Black" CaretBrush="#FFD94448" SelectionBrush="#FFD94448" />
+                   
+                    </StackPanel>
+                    <TextBlock x:Name="txtTime" Text="" Margin="0" Foreground="Black" TextAlignment="Center" FontSize="12" ></TextBlock>
+                    <StackPanel x:Name="passworkstack" Visibility="Collapsed" Orientation="Horizontal" Margin="10" >
+                        <materialDesign:PackIcon Kind="Key" />
+                        <TextBox  x:Name="txtPasswork" Margin="10 0" materialDesign:HintAssist.Hint="Enter Passwork " Foreground="Black" Width="250" BorderBrush="Black" CaretBrush="#FFD94448" SelectionBrush="#FFD94448" />
+                        
+                    </StackPanel>
+                    <StackPanel x:Name="passworkagainstack" Visibility="Collapsed" Orientation="Horizontal" Margin="10" >
+                        <materialDesign:PackIcon Kind="Key" />
+                        <TextBox   x:Name="txtPassworkagain" Margin="10 0" materialDesign:HintAssist.Hint="Enter Passwork Again " Foreground="Black" Width="250" BorderBrush="Black" CaretBrush="#FFD94448" SelectionBrush="#FFD94448" />
+
+                    </StackPanel>
                     <StackPanel/>
                     <StackPanel Margin="10" HorizontalAlignment="Center">
                         <Button Width="150" Height="40" Style="{StaticResource MaterialDesignRaisedButton}" 
                          materialDesign:ButtonAssist.CornerRadius="10" BorderThickness="2" BorderBrush="#D94448"
-                         Background="#D94448" Foreground="White" ToolTip="Login" x:Name="btnLogin" Click="btnForgot_Click" Content="Forgot Passwork">
+                         Background="#D94448" Foreground="White" ToolTip="Login" x:Name="btnforgot" Click="btnForgot_Click" Content="Send Mail">
                         </Button>
                     </StackPanel>
                 </StackPanel>

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace QLNS
 {
@@ -22,37 +23,91 @@ namespace QLNS
     public partial class ForgotWindow : Window
     {
         private int randomnumber;
+        private int time = 30;
+        private DispatcherTimer Timer;
         public ForgotWindow()
         {
             InitializeComponent();
+            Timer=new DispatcherTimer();
+            Timer.Interval = new TimeSpan(0,0,1);
+            Timer.Tick += Timer_Tick;
+           
+        }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (time > 00)
+            {
+                time--;
+                txtTime.Text = string.Format("0{0}:{1}", time / 60, time%60);
+              
+                
+            }
+            else
+            {
+                Timer.Stop();
+                txtCode.IsEnabled = false;
+                btnforgot.Content = "Send Mail";
+                txtCode.Text = "";
+                time = 30;
+                txtEmail.Text = "";
+                MessageBox.Show("het thoi gian vui long nhap lai email roi gui lai");
+            }
         }
 
         private void btnForgot_Click(object sender, RoutedEventArgs e)
         {
-            string to=txtEmail.Text;
-            string from = "";
-            string pass = "";
-            MailMessage mail = new MailMessage();
-           SmtpClient smtp= new SmtpClient("smtp.gmail.com");
-            Random r= new Random();
-            int random = r.Next(1000,9999);
-            randomnumber = random;
-            //MessageBox.Show(random.ToString());
-            mail.To.Add(to);
-            mail.From=new MailAddress(from);
-            mail.Subject = "PRN221";
-            mail.Body = "Code:" + random;
-            smtp.EnableSsl= true;
-            smtp.Port = 587;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = new NetworkCredential(from, pass);
-            try {
-                smtp.Send(mail);
-                MessageBox.Show("Email sent Succ");
+            if(btnforgot.Content.ToString().Equals("Send Mail"))
+            {
+
+                string to = txtEmail.Text;
+                string from = "";
+                string pass = "";
+                MailMessage mail = new MailMessage();
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                Random r = new Random();
+                int random = r.Next(1000, 9999);
+                randomnumber = random;
+                //MessageBox.Show(random.ToString());
+                // mail.To.Add(to);
+                //mail.From=new MailAddress(from);
+                //mail.Subject = "PRN221";
+                //mail.Body = "Code:" + random;
+                //smtp.EnableSsl= true;
+                //smtp.Port = 587;
+                // smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //smtp.Credentials = new NetworkCredential(from, pass);
+                try
+                {
+                    //smtp.Send(mail);
+                    MessageBox.Show("Email sent Succ " + random, "send email");
+                    Timer.Start();
+               
+               
+                    txtEmail.IsEnabled = false;
+                    txtCode.IsEnabled = true;
+                    btnforgot.Content = "Forgot Password";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
             }
-            catch(Exception ex) {
-                MessageBox.Show(ex.Message);
+            else  if(txtCode.Text.ToString().Equals(randomnumber.ToString()))
+            {
+                Timer.Stop();
+                txtTime.Visibility = Visibility.Collapsed;
+               passworkagainstack.Visibility = Visibility.Visible;
+                passworkstack.Visibility = Visibility.Visible;
+                txtCode.Visibility = Visibility.Collapsed;
+                MessageBox.Show("code thanh cong");
             }
+            else
+            {
+                MessageBox.Show("code sai");
+            }
+           
         }
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
