@@ -37,6 +37,9 @@ namespace QLNS
                 if(accountRespository.FindByEmailAndPassword(username, password)!=null)
                 {
                     WpfMessageBox.Show("ok");
+                    LayerWindow lay= new LayerWindow();
+                    lay.Show();
+                    this.Hide();
                 }
             }
             }

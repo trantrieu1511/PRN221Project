@@ -51,62 +51,71 @@ namespace QLNS
                 txtCode.Text = "";
                 time = 30;
                 txtEmail.Text = "";
-                MessageBox.Show("het thoi gian vui long nhap lai email roi gui lai");
+                WpfMessageBox.Show("het thoi gian vui long nhap lai email roi gui lai");
             }
         }
 
         private void btnForgot_Click(object sender, RoutedEventArgs e)
         {
-            if(btnforgot.Content.ToString().Equals("Send Mail"))
+            if (String.IsNullOrEmpty(txtEmail.Text))
             {
-
-                string to = txtEmail.Text;
-                string from = "";
-                string pass = "";
-                MailMessage mail = new MailMessage();
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-                Random r = new Random();
-                int random = r.Next(1000, 9999);
-                randomnumber = random;
-                //MessageBox.Show(random.ToString());
-                // mail.To.Add(to);
-                //mail.From=new MailAddress(from);
-                //mail.Subject = "PRN221";
-                //mail.Body = "Code:" + random;
-                //smtp.EnableSsl= true;
-                //smtp.Port = 587;
-                // smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                //smtp.Credentials = new NetworkCredential(from, pass);
-                try
-                {
-                    //smtp.Send(mail);
-                    MessageBox.Show("Email sent Succ " + random, "send email");
-                    Timer.Start();
-               
-               
-                    txtEmail.IsEnabled = false;
-                    txtCode.IsEnabled = true;
-                    btnforgot.Content = "Forgot Password";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-            }
-            else  if(txtCode.Text.ToString().Equals(randomnumber.ToString()))
-            {
-                Timer.Stop();
-                txtTime.Visibility = Visibility.Collapsed;
-               passworkagainstack.Visibility = Visibility.Visible;
-                passworkstack.Visibility = Visibility.Visible;
-                txtCode.Visibility = Visibility.Collapsed;
-                MessageBox.Show("code thanh cong");
+                WpfMessageBox.Show("Email not Null");
             }
             else
             {
-                MessageBox.Show("code sai");
+
+                if (btnforgot.Content.ToString().Equals("Send Mail") && !String.IsNullOrEmpty(txtEmail.Text))
+                {
+
+                    string to = txtEmail.Text;
+                    string from = "";
+                    string pass = "";
+                    MailMessage mail = new MailMessage();
+                    SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                    Random r = new Random();
+                    int random = r.Next(1000, 9999);
+                    randomnumber = random;
+                    //MessageBox.Show(random.ToString());
+                    // mail.To.Add(to);
+                    //mail.From=new MailAddress(from);
+                    //mail.Subject = "PRN221";
+                    //mail.Body = "Code:" + random;
+                    //smtp.EnableSsl= true;
+                    //smtp.Port = 587;
+                    // smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    //smtp.Credentials = new NetworkCredential(from, pass);
+                    try
+                    {
+                        //smtp.Send(mail);
+                        WpfMessageBox.Show("Email sent Succ " + random, "send email");
+                        Timer.Start();
+
+
+                        txtEmail.IsEnabled = false;
+                        txtCode.IsEnabled = true;
+                        btnforgot.Content = "Forgot Password";
+                    }
+                    catch (Exception ex)
+                    {
+                        WpfMessageBox.Show(ex.Message);
+                    }
+
+                }
+                else if (txtCode.Text.ToString().Equals(randomnumber.ToString()))
+                {
+                    Timer.Stop();
+                    txtTime.Visibility = Visibility.Collapsed;
+                    passworkagainstack.Visibility = Visibility.Visible;
+                    passworkstack.Visibility = Visibility.Visible;
+                    txtCode.Visibility = Visibility.Collapsed;
+                    WpfMessageBox.Show("code thanh cong", "Code");
+                }
+                else
+                {
+                    WpfMessageBox.Show("code sai", "Code");
+                }
             }
+
            
         }
         private void btnExit_Click(object sender, RoutedEventArgs e)

@@ -27,7 +27,7 @@ namespace QLNS
         private void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<LoginWindow>();
- 
+            services.AddSingleton<LayerWindow>();
             services.AddSingleton(typeof(IAccountRespository), typeof(AccountRespository));
           
         }

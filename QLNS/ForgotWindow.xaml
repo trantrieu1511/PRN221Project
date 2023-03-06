@@ -26,7 +26,7 @@
                     <TextBlock Text="Forgot Passwork" Margin="20" Foreground="Black" TextAlignment="Center" FontSize="38" FontFamily="Great Vibes"></TextBlock>
                     <StackPanel Orientation="Horizontal" Margin="10">
                         <materialDesign:PackIcon Kind="User" Width="25" Height="25" Foreground="Black"/>
-                        <TextBox x:Name="txtEmail" Margin="10 0" materialDesign:HintAssist.Hint="Enter Username / Email" Foreground="Black" Width="250" BorderBrush="Black" CaretBrush="#FFD94448" SelectionBrush="#FFD94448" />
+                        <TextBox x:Name="txtEmail" Margin="10 0"  materialDesign:HintAssist.Hint="Enter Username / Email" Foreground="Black" Width="250" BorderBrush="Black" CaretBrush="#FFD94448" SelectionBrush="#FFD94448" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10"/>
                     <StackPanel Orientation="Horizontal" Margin="10">
