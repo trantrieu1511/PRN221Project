@@ -33,8 +33,8 @@ namespace QLNS
         }
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var windowCarMianagenent = serviceProvider.GetService<LoginWindow>();
-            windowCarMianagenent.Show();
+            var windowManagenent = serviceProvider.GetService<LoginWindow>();
+            windowManagenent.Show();
         }
     }
 }
