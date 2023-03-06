@@ -21,10 +21,10 @@ namespace QLNS
     public partial class LoginWindow : Window
     {
         private readonly IAccountRespository accountRespository;
-      
+
         public LoginWindow(IAccountRespository _accountRespository)
         {
-            accountRespository= _accountRespository;
+            accountRespository = _accountRespository;
             InitializeComponent();
         }
 
@@ -34,7 +34,7 @@ namespace QLNS
             string password = txtPassword.Password.ToString();
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
             {
-                if(accountRespository.FindByEmailAndPassword(username, password)!=null)
+                if (accountRespository.FindByEmailAndPassword(username, password) != null)
                 {
                     WpfMessageBox.Show("ok");
                     LayerWindow lay= new LayerWindow();
@@ -42,7 +42,7 @@ namespace QLNS
                     this.Hide();
                 }
             }
-            }
+        }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
@@ -51,7 +51,7 @@ namespace QLNS
 
         private void btnForgot_Click(object sender, RoutedEventArgs e)
         {
-            ForgotWindow forgotWindow= new ForgotWindow();
+            ForgotWindow forgotWindow = new ForgotWindow();
             forgotWindow.Show();
         }
     }

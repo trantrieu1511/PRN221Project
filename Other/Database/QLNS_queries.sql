@@ -84,7 +84,7 @@ insert into account values ('b', 'b', 0,0)
 insert into account values ('a', 'a', 0,0)
 insert into account values ('mrdel', 'mrdel', 0,0)
 insert into account values ('trantrieu123', '12345678', 0,1)
-
+insert into account values ('admin', '123', 1,0)
 
 
 --update acc
