@@ -11,7 +11,7 @@ namespace BusinessObject.Models
         }
 
         public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; } = null!;
+        public string DepartmentName { get; set; }
 
         public virtual ICollection<Profile> Profiles { get; set; }
     }
