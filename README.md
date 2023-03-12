@@ -13,7 +13,8 @@ thường manager không có thông tin ở trường report_to).
 + Check deadline (Quá deadline employee sẽ không giao được việc (trừ khi manager mở rộng thêm),
 Manager set up thông báo deadline cho employee, trước x ngày/ tháng/ năm để employee biết hoàn thành
 kịp công việc của họ.)
-+ ------------------Giao việc--------------------
+
++ -------------------------------------- Giao việc -----------------------------------------
 
 - A Lư làm dashboard, quản lý account (Quản lý bảng account).
 - A Phúc làm CRUD employee (Quản lý bảng profile).
@@ -21,7 +22,10 @@ kịp công việc của họ.)
 check task. Check deadline.
 - Triệu làm quản lý lương (Quản lý bảng payroll)
 
-* Note: Project mình cũng sẽ sử dụng dependency injection và 
+* Note: 
+- Project mình cũng sẽ sử dụng dependency injection và 
 cách tổ chức source code theo repository pattern như assignment1.
 Ae có gì bất cứ điều gì thắc mắc về project của mình thì cứ hỏi lên 
 nhóm nhé.
+- Giao diện mọi người chủ động tìm được ở trên mạng thì dùng nếu không
+tự làm ra cũng được (Giao diện WPF em thấy tìm hơi khó).
