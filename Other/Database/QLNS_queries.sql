@@ -1,4 +1,4 @@
-use PRN221_QLNS
+use PRN221_Project_QLNS
 
 select * from department
 select * from [profile]
