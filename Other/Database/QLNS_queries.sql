@@ -80,10 +80,10 @@ select * from account
 delete from account where profile_id = 2
 
 -- insert account
-insert into account values ('b', 'b', 0,0)
-insert into account values ('a', 'a', 0,0)
-insert into account values ('mrdel', 'mrdel', 0,0)
-insert into account values ('trantrieu123', '12345678', 0,1)
+insert into account(profile_id,username,password,isadmin,ismanager) values ('b', 'b', 0,0)
+insert into account(profile_id,username,password,isadmin,ismanager) values ('a', 'a', 0,0)
+insert into account(profile_id,username,password,isadmin,ismanager) values ('mrdel', 'mrdel', 0,0)
+insert into account(profile_id,username,password,isadmin,ismanager) values (2, 'trantrieu123', '12345678', 0,1)
 insert into account(profile_id,username,password,isadmin,ismanager) values (1,'admin', '123', 1,0)
 
 
