@@ -8,10 +8,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+//Chinh trang default khi chay project
+builder.Services.AddMvc().AddRazorPagesOptions(options =>
+{
+    options.Conventions.AddPageRoute("/Login", "");
+});
+
+//Add db context
 builder.Services.AddDbContext<Prn221ProjectQlnsContext>(opt =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("PizzaStore"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn"));
 });
+
 builder.Services.AddDistributedMemoryCache();
 
 //add session middleware
@@ -22,6 +31,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+//Use dependency injection
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddHttpContextAccessor();
 
@@ -37,6 +47,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 //use session

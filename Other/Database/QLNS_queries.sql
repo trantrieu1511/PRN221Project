@@ -54,7 +54,7 @@ values ('mr', 'admin', 'admin@mail.com', '0123456789', '14/07/2022', 1, 1)
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id)
 values ('Trieu', 'Tran', 'trantrieu@gmail.com', '0123456789', '14/07/2022', 1, 1)
 insert into [Profile](first_name,last_name,email,phone_number,hire_date,job_id,department_id)
-values ('mr', 'a', 'MRA@gmail.com', '0246813579', '12/07/2022', 1, 1)
+values ('mr', 'a', 'mra@gmail.com', '0246813579', '12/07/2022', 1, 1)
 
 
 --insert staff
@@ -81,7 +81,7 @@ delete from account where profile_id = 2
 
 -- insert account
 insert into account(profile_id,username,password,isadmin,ismanager) values ('b', 'b', 0,0)
-insert into account(profile_id,username,password,isadmin,ismanager) values ('a', 'a', 0,0)
+insert into account(profile_id,username,password,isadmin,ismanager) values (3,'a', 'a', 0,0)
 insert into account(profile_id,username,password,isadmin,ismanager) values ('mrdel', 'mrdel', 0,0)
 insert into account(profile_id,username,password,isadmin,ismanager) values (2, 'trantrieu123', '12345678', 0,1)
 insert into account(profile_id,username,password,isadmin,ismanager) values (1,'admin', '123', 1,0)

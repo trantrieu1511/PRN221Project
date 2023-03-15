@@ -11,7 +11,7 @@ namespace PRN221_Assigment2.Pages
             HttpContext.Session.SetInt32("role", 0);
             HttpContext.Session.SetInt32("id", 0);
             HttpContext.Session.SetString("Username", "");
-            return this.RedirectToPage("/Index");
+            return this.RedirectToPage("/Login");
         }
     }
 }
