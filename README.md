@@ -25,5 +25,3 @@ check task. Check deadline.
 * Note: 
 - Project mình sẽ sử dụng dependency injection và SignalR. Ae có gì bất cứ điều gì
 thắc mắc về project của mình thì cứ hỏi lên nhóm nhé.
-- Giao diện mọi người chủ động tìm được ở trên mạng thì dùng nếu không
-tự làm ra cũng được (Giao diện WPF em thấy tìm hơi khó).
