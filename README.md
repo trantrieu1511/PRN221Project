@@ -16,8 +16,9 @@ kịp công việc của họ.)
 
 + -------------------------------------- Giao việc -----------------------------------------
 
-- A Lư làm dashboard, quản lý account (Quản lý bảng account).
-- A Phúc làm CRUD employee (Quản lý bảng profile).
+- A Lư làm dashboard của cả manager và employee, quản lý account (Quản lý bảng account).
+- A Phúc làm manager quản lý thông tin employee báo cáo đến mình 
+(CRUD profile báo cáo đến mình).
 - Khánh làm manager giao task cho employee, employee
 check task. Check deadline.
 - Triệu làm quản lý lương (Quản lý bảng payroll)
