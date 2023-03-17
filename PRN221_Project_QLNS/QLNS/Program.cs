@@ -15,6 +15,8 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
     options.Conventions.AddPageRoute("/Login", "");
 });
 
+//hello
+
 //Add db context
 builder.Services.AddDbContext<Prn221ProjectQlnsContext>(opt =>
 {
