@@ -7,9 +7,9 @@ namespace QLNS.Pages
 {
     public class TaskBoardModel : PageModel
     {
-        private readonly Prn221ProjectQlnsContext _context;
+        private readonly PRN221_Project_QLNSContext _context;
 
-        public TaskBoardModel(Prn221ProjectQlnsContext context)
+        public TaskBoardModel(PRN221_Project_QLNSContext context)
         {
             _context = context;
         }
