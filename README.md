@@ -17,11 +17,10 @@ kịp công việc của họ.)
 + -------------------------------------- Giao việc -----------------------------------------
 
 - A Lư làm dashboard của cả manager và employee, quản lý account (Quản lý bảng account).
-- A Phúc làm manager quản lý thông tin employee báo cáo đến mình 
-(CRUD profile báo cáo đến mình).
+- A Phúc làm taskboard cho manager và employee(list task theo status 0:pending, 1:progress, 2:review, 3:done; employee có thể nhận task đang pending, check hoàn thành task progress; manager có thể check done task review)
 - Khánh làm manager giao task cho employee, employee
 check task. Check deadline.
-- Triệu làm quản lý lương (Quản lý bảng payroll)
+- Triệu làm CRUD employee
 
 * Note: 
 - Project mình sẽ sử dụng dependency injection và SignalR. Ae có gì bất cứ điều gì
