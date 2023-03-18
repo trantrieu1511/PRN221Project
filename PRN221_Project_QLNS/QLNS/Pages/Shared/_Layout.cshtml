@@ -18,14 +18,6 @@
         <!-- Header -->
         <div class="header">
 
-            <!-- Logo -->
-            <div class="header-left">
-                @*<a href="index.html" class="logo">
-                <img src="../assets/img/logo.png" width="40" height="40" alt="">
-                </a>*@
-            </div>
-            <!-- /Logo -->
-
             <a id="toggle_btn" href="javascript:void(0);">
                 <span class="bar-icon">
                     <span></span>
@@ -403,6 +395,7 @@
                                         //<li><a href="leaves-employee.html">Leaves (Manager)</a></li>
                                         //<li><a href="attendance-employee.html">Attendance (Manager)</a></li>
                                         <li><a asp-page="/Timesheet">Timesheet</a></li>
+                                        <li><a asp-page="/Taskboard">Taskboard</a></li>
                                         //<li><a href="shift-scheduling.html">Shift & Schedule</a></li>
                                         //<li><a href="overtime.html">Overtime</a></li>
                                     }
@@ -421,19 +414,6 @@
                             <li>
                                 <a asp-page="/Clients"><i class="la la-users"></i> <span>Clients</span></a>
                             </li>
-                        }
-                        @{
-                            if (role != 1 && role != 0)
-                            {
-                                <li class="submenu">
-                                    <a href="#"><i class="la la-rocket"></i> <span> Projects</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a asp-page="Projects">Projects</a></li>
-                                        @*<li><a href="tasks.html">Tasks</a></li>*@
-                                        <li><a asp-page="TaskBoard">Task Board</a></li>
-                                    </ul>
-                                </li>
-                            }
                         }
 
 
