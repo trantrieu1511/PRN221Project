@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace QLNS.Models;
-
-public partial class Task
+namespace QLNS.Models
 {
-    public int Id { get; set; }
+    public partial class Task
+    {
+        public int TaskId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime? Deadline { get; set; }
+        public int? Status { get; set; }
+        public int? Assigned { get; set; }
 
-    public string Name { get; set; }
-
-    public int? Priority { get; set; }
-
-    public string Deadline { get; set; }
-
-    public int? Status { get; set; }
-
-    public int? Assigned { get; set; }
-
-    public string Project { get; set; }
-
-    public virtual Profile AssignedNavigation { get; set; }
-
-    public virtual Project ProjectNavigation { get; set; }
+        public virtual Profile AssignedNavigation { get; set; }
+    }
 }

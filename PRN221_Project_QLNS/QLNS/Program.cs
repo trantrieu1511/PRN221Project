@@ -18,7 +18,7 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
 //hello
 
 //Add db context
-builder.Services.AddDbContext<Prn221ProjectQlnsContext>(opt =>
+builder.Services.AddDbContext<PRN221_Project_QLNSContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn"));
 });

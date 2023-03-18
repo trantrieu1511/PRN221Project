@@ -7,9 +7,9 @@ namespace QLNS.Pages
 {
 	public class LoginModel : PageModel
 	{
-		private readonly Prn221ProjectQlnsContext _context;
+		private readonly PRN221_Project_QLNSContext _context;
 
-		public LoginModel(Prn221ProjectQlnsContext context)
+		public LoginModel(PRN221_Project_QLNSContext context)
 		{
 			_context = context;
 		}
@@ -40,7 +40,7 @@ namespace QLNS.Pages
 			{
 				int role = 0; //nguoi dung chua dang nhap vao he thong
 
-				HttpContext.Session.SetInt32("id", account.ProfileId);
+				HttpContext.Session.SetInt32("id", account.AccountId);
 				HttpContext.Session.SetString("Username", Account.Username);
 				if (account.Isadmin)
 				{

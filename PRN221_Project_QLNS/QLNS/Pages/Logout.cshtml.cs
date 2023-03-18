@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 
-namespace PRN221_Assigment2.Pages
+namespace QLNS.Pages
 {
     public class LogoutModel : PageModel
     {
@@ -11,7 +11,7 @@ namespace PRN221_Assigment2.Pages
             HttpContext.Session.SetInt32("role", 0);
             HttpContext.Session.SetInt32("id", 0);
             HttpContext.Session.SetString("Username", "");
-            return this.RedirectToPage("/Login");
+            return RedirectToPage("/Login");
         }
     }
 }

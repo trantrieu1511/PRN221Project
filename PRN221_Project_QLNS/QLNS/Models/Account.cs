@@ -1,24 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace QLNS.Models;
-
-public partial class Account
+namespace QLNS.Models
 {
-    public int ProfileId { get; set; }
-    [Required]
-    public string Username { get; set; }
-    [Required]
-    public string Password { get; set; }
+    public partial class Account
+    {
+        public Account()
+        {
+            Profiles = new HashSet<Profile>();
+        }
 
-    public bool Isadmin { get; set; }
+        public int AccountId { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool Isadmin { get; set; }
+        public bool Ismanager { get; set; }
 
-    public bool Ismanager { get; set; }
-
-    public bool? Status { get; set; }
-
-    [ValidateNever]
-    public virtual Profile Profile { get; set; }
+        public virtual ICollection<Profile> Profiles { get; set; }
+    }
 }

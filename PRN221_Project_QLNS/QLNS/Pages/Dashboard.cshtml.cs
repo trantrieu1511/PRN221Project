@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace QLNS.Pages.Admin
+namespace QLNS.Pages
 {
     public class DashboardModel : PageModel
     {
