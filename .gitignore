@@ -363,6 +363,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 PRN221_Project_QLNS/QLNS/appsettings.json
-*.vsidx
-*.vsidx
-*.v2
