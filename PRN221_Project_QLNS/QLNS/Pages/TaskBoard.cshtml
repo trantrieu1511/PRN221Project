@@ -1,5 +1,6 @@
 ﻿@page
 @model QLNS.Pages.TaskBoardModel
+@inject IHttpContextAccessor HttpContextAccessor;
 @{
     ViewData["Title"] = "Task board";
 }
@@ -43,6 +44,11 @@
     <![endif]-->
 </head>
 <body>
+    @{
+        string user = HttpContextAccessor.HttpContext.Session.GetString("Username") ?? "";
+        int role = HttpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
+        int id = HttpContextAccessor.HttpContext.Session.GetInt32("id") ?? 0;
+    }
     <!-- Main Wrapper -->
     <div class="main-wrapper">
 
@@ -71,44 +77,99 @@
                                 </div>
                                 <div class="kanban-wrap">
                                     @{
-                                        foreach (Models.Task task in Model.Pending)
+                                       
+                                        if (role == 2)
                                         {
-                                            <div class="card panel">
-                                                <div class="kanban-box">
-                                                    <div class="task-board-header">
-                                                        <span class="status-title">@task.Name</span>
-                                                        <div class="dropdown kanban-action">
-                                                            <a href="" data-toggle="dropdown">
-                                                                <i class="fa fa-ellipsis-v"></i>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <a class="dropdown-item" id="edit_btn" href="#" data-toggle="modal" data-target="#edit_task_modal"
-                                                                data-id="@task.TaskId @task.Name @task.Deadline @task.Description @task.Assigned">Edit</a>
-                                                                <a class="dropdown-item" href="#">Delete</a>
+                                            foreach (Models.Task task in Model.Pending)
+                                            {
+                                                <div class="card panel">
+                                                    <div class="kanban-box">
+                                                        <div class="task-board-header">
+                                                            <span class="status-title">@task.Name</span>
+                                                            <div class="dropdown kanban-action">
+                                                                <a href="" data-toggle="dropdown">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+
+
+                                                                    <a class="dropdown-item" id="edit_btn" href="#" data-toggle="modal" data-target="#edit_task_modal"
+                                                               data-id="@task.TaskId @task.Name @task.Deadline @task.Description @task.Assigned">Edit</a>
+
+
+                                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="task-board-body">
+                                                            <div class="kanban-info">
+                                                                <span class="task-info-cont">
+                                                                    <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="kanban-footer">
+
+                                                                <span class="task-users">
+                                                                    @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="task-board-body">
-                                                        <div class="kanban-info">
-                                                            <span class="task-info-cont">
-                                                                <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="kanban-footer">
+                                                </div>
+                                            }
+                                        }
+                                        if (role == 3)
+                                        {
+                                            foreach (Models.Task task in Model.Pending)
+                                            {
+                                                <div class="card panel">
+                                                    <div class="kanban-box">
+                                                        <div class="task-board-header">
+                                                            <span class="status-title">@task.Name</span>
+                                                            <div class="dropdown kanban-action">
+                                                                <a href="" data-toggle="dropdown">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <a class="dropdown-item" asp-page-handler="EditTaskStatus" asp-route-id="@task.TaskId" asp-route-status="1">Progress</a>
+                                                                    <a class="dropdown-item" asp-page-handler="EditTaskStatus" asp-route-id="@task.TaskId" asp-route-status="2">Review</a>
+                                                                     <a  class="dropdown-item" asp-page-handler="EditTaskStatus" asp-route-id="@task.TaskId" asp-route-status="3">Done</a>
 
-                                                            <span class="task-users">
-                                                                @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
-                                                            </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="task-board-body">
+                                                            <div class="kanban-info">
+                                                                <span class="task-info-cont">
+                                                                    <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="kanban-footer">
+
+                                                                <span class="task-users">
+                                                                    @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            }
                                         }
                                     }
+                                 
                                 </div>
-                                <div class="add-new-task">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#add_task_modal">Add New Task</a>
-                                </div>
+                                @{
+
+
+                                    if (role == 2)
+                                    {
+                                        <div class="add-new-task">
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#add_task_modal">Add New Task</a>
+                                        </div>
+                                    }
+                                }
+                               
+                            
                             </div>
                             <div class="kanban-list kanban-info">
                                 <div class="kanban-header">
