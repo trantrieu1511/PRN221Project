@@ -37,7 +37,7 @@ namespace QLNS.Pages
                 Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
             }
         }
-        public async Task<IActionResult> AddTask()
+        public async Task<IActionResult> OnPostAdd()
         {
             Models.Task task = new Models.Task
             {
@@ -51,7 +51,7 @@ namespace QLNS.Pages
             _context.SaveChanges();
             return RedirectToPage("./Taskboard");
         }
-        public async Task<IActionResult> EditTask()
+        public async Task<IActionResult> OnPostEdit()
         {
             Models.Task task = _context.Tasks.Where(_ => _.TaskId == Request.Form["id"]).FirstOrDefault();
             task.Name = Request.Form["name"];
