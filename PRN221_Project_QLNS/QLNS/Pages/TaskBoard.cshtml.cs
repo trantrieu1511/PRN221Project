@@ -17,24 +17,24 @@ namespace QLNS.Pages
             _context = context;
         }
 
-        [BindProperty]
         public IList<Models.Task> Pending { get; set; }
-        [BindProperty]
         public IList<Models.Task> Progress { get; set; }
-        [BindProperty]
         public IList<Models.Task> Review { get; set; }
-        [BindProperty]
         public IList<Models.Task> Done { get; set; }
-
+        public List<SelectListItem> Employees { get; set; }
         public async System.Threading.Tasks.Task OnGetAsync()
         {
-            ViewData["Employee"] = new SelectList(_context.Profiles, "ProfileId", "FirstName" + " " + "LastName");
+            Employees = await _context.Profiles.Select(_ => new SelectListItem
+            {
+                Value = _.ProfileId.ToString(),
+                Text = _.FirstName + " " + _.LastName + "/" + _.Email
+            }).ToListAsync();
             if (_context.Tasks != null)
             {
-                Pending = await _context.Tasks.Where(_ => _.Status == 0).ToListAsync();
-                Progress = await _context.Tasks.Where(_ => _.Status == 1).ToListAsync();
-                Review = await _context.Tasks.Where(_ => _.Status == 2).ToListAsync();
-                Done = await _context.Tasks.Where(_ => _.Status == 3).ToListAsync();
+                Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
+                Progress = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 1).ToListAsync();
+                Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
+                Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
             }
         }
         public async Task<IActionResult> AddTask()
