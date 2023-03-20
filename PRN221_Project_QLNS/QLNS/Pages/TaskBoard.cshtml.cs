@@ -109,13 +109,13 @@ namespace QLNS.Pages
                 return RedirectToPage("./Taskboard");
             }
         }
-        public async Task<IActionResult> EditTaskStatus(int id, int status)
+        public async Task<IActionResult> OnGetEditTaskStatus(int id, int status)
         {
             Models.Task task = _context.Tasks.Where(_ => _.TaskId == id).FirstOrDefault();
             task.Status = status;
             _context.Tasks.Update(task);
             _context.SaveChanges();
-            return RedirectToPage("./Login");
+            return RedirectToPage("./Taskboard");
         }
     }
 }
