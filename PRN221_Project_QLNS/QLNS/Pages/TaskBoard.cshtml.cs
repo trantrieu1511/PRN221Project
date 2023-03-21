@@ -88,7 +88,7 @@ namespace QLNS.Pages
             }
 
         }
-        public async Task<IActionResult> OnGetEdit(int id)
+        public async Task<IActionResult> OnPostEdit(int id)
         {
             ViewData["message"] = "ok"+id.ToString();
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
