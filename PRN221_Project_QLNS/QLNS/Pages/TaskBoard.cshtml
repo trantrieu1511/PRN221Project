@@ -93,9 +93,9 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
 
 
-                                                                    <a class="dropdown-item" id="edit_btn" href="#" data-toggle="modal" data-target="#edit_task_modal"
-                                                               data-id="@task.TaskId @task.Name @task.Deadline @task.Description @task.Assigned">Edit</a>
-
+                                                                    <a class="dropdown-item"  asp-page-handler="Edit" asp-route-id="@task.TaskId"  
+                                                               >Edit</a>
+                                                                    <a asp-page-handler="Edit" asp-route-id="@task.TaskId" class="btn btn-primary" data-toggle="modal" data-target="#editTaskModal" data-task-id="@Model.task1.TaskId" data-task-title="@Model.task1.Name" data-task-description="@Model.task1.Deadline">Edit</a>
 
                                                                     <a class="dropdown-item" href="#">Delete</a>
                                                                 </div>
@@ -312,42 +312,37 @@
             </div>
             <!-- /Add Task Modal -->
             <!-- Edit Task Modal -->
-            <div id="edit_task_modal" class="modal custom-modal fade" role="dialog">
-                <div class="modal-dialog">
+            <div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit Task</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5 class="modal-title" id="editTaskModalLabel">Edit Task</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
-                            <form asp-page-handler="edit" method="post">
-                                <input type="hidden" name="id" />
+                            <form id="editTaskForm" method="post">
+                                <input type="hidden" id="taskIdInput" name="taskId" />
                                 <div class="form-group">
-                                    <label>Task Name</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <label for="titleInput">Title</label>
+                                    <input type="text" class="form-control" id="titleInput" name="title" required />
                                 </div>
                                 <div class="form-group">
-                                    <label>Due Date</label>
-                                    <div class="cal-icon"><input class="form-control datetimepicker" type="text" name="deadline"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Task Followers</label>
-                                    <select class="form-control" asp-items="Model.Employees" name="employee"></select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea class="form-control" name="description"></textarea>
-                                </div>
-                                <div class="submit-section text-center">
-                                    <button class="btn btn-primary submit-btn">Submit</button>
+                                    <label for="descriptionInput">Description</label>
+                                    <textarea class="form-control" id="descriptionInput" name="description"></textarea>
                                 </div>
                             </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" form="editTaskForm" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- /Edit Task Modal -->
-
+            <h1 style="color:red">@ViewData["message"]</h1>
         </div>
         <!-- /Page Wrapper -->
 
@@ -361,6 +356,19 @@
             $(".modal-body [name=deadline]").val(passed[2]);
             $(".modal-body [name=employee]").val(passed[3]);
             $(".modal-body [name=description]").val(passed[4]);
+        });
+    </script>
+
+    <script>
+        $('#editTaskModal').on('show.bs.modal', function (event) {
+            var triggerButton = $(event.relatedTarget);
+            var taskId = triggerButton.data('task-id');
+            var taskTitle = triggerButton.data('task-title');
+            var taskDescription = triggerButton.data('task-description');
+
+            $('#taskIdInput').val(taskId);
+            $('#titleInput').val(taskTitle);
+            $('#descriptionInput').val(taskDescription);
         });
     </script>
     <!-- /Main Wrapper -->

@@ -18,7 +18,8 @@ namespace QLNS.Pages
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
-
+     //   [BindProperty]
+        public Models.Task task1 { get; set; }
         public IList<Models.Task> Pending { get; set; }
         public IList<Models.Task> Progress { get; set; }
         public IList<Models.Task> Review { get; set; }
@@ -27,19 +28,33 @@ namespace QLNS.Pages
         public async System.Threading.Tasks.Task OnGetAsync()
         {
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
+            int id = _httpContextAccessor.HttpContext.Session.GetInt32("id") ?? 0;
             int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
+            string ismanager= _httpContextAccessor.HttpContext.Session.GetString("ismanager") ?? "";
+            string isadmin = _httpContextAccessor.HttpContext.Session.GetString("isadmin") ?? "";
             if (role == 0)
             {
                 this.RedirectToPage("/Login");
             }
             else
             {
-                Employees = await _context.Profiles.Select(_ => new SelectListItem
-                {
+                //Employees = await _context.Profiles.Select(_ => new SelectListItem
+                //{
 
+                //    Value = _.ProfileId.ToString(),
+                //    Text = _.FirstName + " " + _.LastName + "/" + _.Email
+                //}.).ToListAsync();
+                Employees = await _context.Profiles.
+                    Include(a => a.Account).Where(s => s.Account.Isadmin == false && s.Account.Ismanager == false).Select(_ => new SelectListItem
+                {
                     Value = _.ProfileId.ToString(),
                     Text = _.FirstName + " " + _.LastName + "/" + _.Email
                 }).ToListAsync();
+
+
+                       
+              
+                
                 if (_context.Tasks != null)
                 {
                     Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
@@ -73,6 +88,45 @@ namespace QLNS.Pages
             }
 
         }
+        public async Task<IActionResult> OnGetEdit(int id)
+        {
+            ViewData["message"] = "ok"+id.ToString();
+            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
+            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
+            if (role != 2)
+            {
+                return this.RedirectToPage("/Login");
+            }
+            else
+            {
+                Employees = await _context.Profiles.
+                 Include(a => a.Account).Where(s => s.Account.Isadmin == false && s.Account.Ismanager == false&&s.ReportTo==1).Select(_ => new SelectListItem
+                 {
+                     Value = _.ProfileId.ToString(),
+                     Text = _.FirstName + " " + _.LastName + "/" + _.Email
+                 }).ToListAsync();
+                if (_context.Tasks != null)
+                {
+                    Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
+                    Progress = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 1).ToListAsync();
+                    Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
+                    Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
+                }
+                if (id == null || _context.Tasks == null)
+                {
+                    return NotFound();
+                }
+
+                var product = await _context.Tasks.FirstOrDefaultAsync(m => m.TaskId == id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+                task1 = product;
+                return Page();
+            }
+        }
+
         public async Task<IActionResult> OnPostEdit()
         {
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
@@ -93,7 +147,7 @@ namespace QLNS.Pages
                 return RedirectToPage("./Taskboard");
             }
         }
-        public async Task<IActionResult> DeleteTask(int id)
+        public async Task<IActionResult> OnGetDeleteTask(int id)
         {
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
             int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;

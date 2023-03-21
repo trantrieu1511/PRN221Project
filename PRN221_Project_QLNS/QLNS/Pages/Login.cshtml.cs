@@ -41,7 +41,9 @@ namespace QLNS.Pages
 				int role = 0; //nguoi dung chua dang nhap vao he thong
 
 				HttpContext.Session.SetInt32("id", account.AccountId);
-				HttpContext.Session.SetString("Username", Account.Username);
+                HttpContext.Session.SetString("isadmin", account.Isadmin.ToString());
+                HttpContext.Session.SetString("ismanager", account.Ismanager.ToString());
+                HttpContext.Session.SetString("Username", Account.Username);
 				if (account.Isadmin)
 				{
 					role = 1; //admin
