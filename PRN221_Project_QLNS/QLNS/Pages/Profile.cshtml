@@ -93,18 +93,18 @@
                                                     <li>
                                                         <div class="title">Email:</div>
                                                         <div class="text"><a href="">@Model.Profile.Email</a></div>
-                                                    </li> 
+                                                    </li>
                                                     @if (@Model.Profile.ReportTo != null)
                                                     {
-                                                      <li>
-                                                        <div class="title">Reports to:</div>
-                                                        <div class="text">                                                            
-                                                            <a>
-                                                                @Model.Manager.FirstName @Model.Manager.LastName
-                                                            </a>
-                                                        </div>
-                                                    </li>  
-                                                    }                                                   
+                                                        <li>
+                                                            <div class="title">Reports to:</div>
+                                                            <div class="text">
+                                                                <a>
+                                                                    @Model.Manager.FirstName @Model.Manager.LastName
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
@@ -130,35 +130,27 @@
                         </div>
                         <div class="modal-body">
                             <form asp-page-handler="edit" method="post">
-                                <input type="hidden" class="form-control" asp-for="@Model.Profile.ProfileId">
-                                <input type="hidden" class="form-control" asp-for="@Model.Profile.AccountId">
-                                <input type="hidden" class="form-control" asp-for="@Model.Profile.Email">
-                                <input type="hidden" class="form-control" asp-for="@Model.Profile.HireDate">
-                                <input type="hidden" class="form-control" asp-for="@Model.Profile.Job">
-                                <input type="hidden" class="form-control" asp-for="@Model.Profile.ReportTo">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>First Name</label>
-                                                    <input class="form-control" asp-for="@Model.Profile.FirstName">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Last Name</label>
-                                                    <input class="form-control" asp-for="@Model.Profile.LastName">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <input type="hidden" value="@Model.Profile.ProfileId" name="id" />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label>First Name</label>
+                                            <input class="form-control" asp-for="ProfileDAO.FirstName" value="@Model.Profile.FirstName">
+                                            <span asp-validation-for="ProfileDAO.FirstName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input class="form-control" asp-for="ProfileDAO.LastName" value="@Model.Profile.LastName">
+                                            <span asp-validation-for="ProfileDAO.LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input class="form-control" asp-for="@Model.Profile.PhoneNumber">
+                                            <input class="form-control" asp-for="ProfileDAO.PhoneNumber" value="@Model.Profile.PhoneNumber">
+                                            <span asp-validation-for="ProfileDAO.PhoneNumber" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>

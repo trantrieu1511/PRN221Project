@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using QLNS.DAO;
 using QLNS.Data;
 using QLNS.Models;
 using System.Globalization;
@@ -21,6 +22,10 @@ namespace QLNS.Pages
         public string Name { get; set; }
         [BindProperty]
         public string Email { get; set; }
+        [BindProperty]
+        public ProfileDAO ProfileDAO { get; set; }
+        [BindProperty]
+        public AccountDAO AccountDAO { get; set; }  
         public IList<Profile> Profiles { get; set; }
 
         public async System.Threading.Tasks.Task OnGetAsync(string name, string email)
@@ -61,9 +66,17 @@ namespace QLNS.Pages
         }
         public async Task<IActionResult> OnPostAdd()
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Email");
+            ModelState.Remove("AccountDAO.Password");
+            ModelState.Remove("ProfileDAO.HireDate");
+            ModelState.Remove("ProfileDAO.ReportTo");
+            if (!ModelState.IsValid) {
+                return RedirectToPage("./EmployeeList"); 
+            }
             Account acc = new Account
             {
-                Username = Request.Form["username"],
+                Username = AccountDAO.Username,
                 Password = "123456",
                 Isadmin = false,
                 Ismanager = false
@@ -80,12 +93,12 @@ namespace QLNS.Pages
             Profile profile = new Profile
             {
                 AccountId = newAcc.AccountId,
-                FirstName = Request.Form["firstname"],
-                LastName = Request.Form["lastname"],
-                Email = Request.Form["email"],
-                PhoneNumber = Request.Form["phone"],
+                FirstName = ProfileDAO.FirstName,
+                LastName = ProfileDAO.LastName,
+                Email = ProfileDAO.Email,
+                PhoneNumber = ProfileDAO.PhoneNumber,
                 HireDate = DateTime.Today.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                Job = Request.Form["job"],
+                Job = ProfileDAO.Job,
                 ReportTo = userProfileID
             };
             _context.Profiles.Add(profile);
@@ -94,14 +107,26 @@ namespace QLNS.Pages
         }
         public async Task<IActionResult> OnPostEdit()
         {
+            ModelState.Remove("Name");
+            ModelState.Remove("Email");
+            ModelState.Remove("Username");
+            ModelState.Remove("Password");
+            ModelState.Remove("AccountDAO.Username");
+            ModelState.Remove("AccountDAO.Password");
+            ModelState.Remove("ProfileDAO.HireDate");
+            ModelState.Remove("ProfileDAO.ReportTo");
+            if (!ModelState.IsValid)
+            {
+                return RedirectToPage("./EmployeeList");
+            }
             int id = int.Parse(Request.Form["id"]);
             Profile profile = _context.Profiles.Where(_ => _.ProfileId == id).FirstOrDefault();
 
-            profile.FirstName = Request.Form["firstname"];
-            profile.LastName = Request.Form["lastname"];
-            profile.Email = Request.Form["email"];
-            profile.PhoneNumber = Request.Form["phone"];
-            profile.Job = Request.Form["job"];
+            profile.FirstName = ProfileDAO.FirstName;
+            profile.LastName = ProfileDAO.LastName;
+            profile.Email = ProfileDAO.Email;
+            profile.PhoneNumber = ProfileDAO.PhoneNumber;
+            profile.Job = ProfileDAO.Job;
 
             _context.Profiles.Update(profile);
             _context.SaveChanges();
