@@ -268,10 +268,6 @@
                 }
                 <li class="nav-item dropdown has-arrow main-drop">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        @*<span class="user-img">
-                        <img src="../assets/img/profiles/avatar-21.jpg" alt="">
-                        <span class="status online"></span>
-                        </span>*@
                         <span>Welcome: @user</span>
                     </a>
                     <div class="dropdown-menu">
@@ -279,19 +275,14 @@
 
                             if (role == 1) //Admin
                             {
-                                <a class="dropdown-item" asp-page="/Profile">My Profile</a>
+                                <a class="dropdown-item" asp-page="/Profile" asp-route-id="@id">My Profile</a>
                                 <a class="dropdown-item" href="settings.html">Settings</a>
                             }
-                            if (role == 2) //Manager
+                            else
                             {
-                                <a class="dropdown-item" asp-page="/Profile">My Profile</a>
-
+                                <a class="dropdown-item" asp-page="/Profile" asp-route-id="@id">My Profile</a>
                             }
-                            if (role == 3) //Employee
-                            {
-                                <a class="dropdown-item" asp-page="/Profile">My Profile</a>
 
-                            }
                         }
                         <a class="dropdown-item" asp-page="/Logout">Logout</a>
                     </div>
