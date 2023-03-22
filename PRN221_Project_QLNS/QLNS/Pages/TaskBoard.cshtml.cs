@@ -18,7 +18,7 @@ namespace QLNS.Pages
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
-     //   [BindProperty]
+        [BindProperty]
         public Models.Task task1 { get; set; }
         public IList<Models.Task> Pending { get; set; }
         public IList<Models.Task> Progress { get; set; }
@@ -88,44 +88,7 @@ namespace QLNS.Pages
             }
 
         }
-        public async Task<IActionResult> OnPostEdit(int id)
-        {
-            ViewData["message"] = "ok"+id.ToString();
-            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
-            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            if (role != 2)
-            {
-                return this.RedirectToPage("/Login");
-            }
-            else
-            {
-                Employees = await _context.Profiles.
-                 Include(a => a.Account).Where(s => s.Account.Isadmin == false && s.Account.Ismanager == false&&s.ReportTo==1).Select(_ => new SelectListItem
-                 {
-                     Value = _.ProfileId.ToString(),
-                     Text = _.FirstName + " " + _.LastName + "/" + _.Email
-                 }).ToListAsync();
-                if (_context.Tasks != null)
-                {
-                    Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
-                    Progress = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 1).ToListAsync();
-                    Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
-                    Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
-                }
-                if (id == null || _context.Tasks == null)
-                {
-                    return NotFound();
-                }
 
-                var product = await _context.Tasks.FirstOrDefaultAsync(m => m.TaskId == id);
-                if (product == null)
-                {
-                    return NotFound();
-                }
-                task1 = product;
-                return Page();
-            }
-        }
 
         public async Task<IActionResult> OnPostEdit()
         {
@@ -137,7 +100,8 @@ namespace QLNS.Pages
             }
             else
             {
-                Models.Task task = _context.Tasks.Where(_ => _.TaskId == Request.Form["id"]).FirstOrDefault();
+                int id = int.Parse(Request.Form["id"]);
+                Models.Task task = _context.Tasks.Where(_ => _.TaskId ==id).FirstOrDefault();
                 task.Name = Request.Form["name"];
                 task.Description = Request.Form["description"];
                 task.Deadline = DateTime.ParseExact(Request.Form["deadline"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);

@@ -93,14 +93,49 @@
                                                                 <div class="dropdown-menu dropdown-menu-right">
 
 
-                                                                    <a class="dropdown-item"  asp-page-handler="Edit" asp-route-id="@task.TaskId"  
-                                                               >Edit</a>
-                                                                    <a asp-page-handler="Edit" asp-route-id="@task.TaskId" class="btn btn-primary" data-toggle="modal" data-target="#editTaskModal" data-task-id="@Model.task1.TaskId" data-task-title="@Model.task1.Name" data-task-description="@Model.task1.Deadline">Edit</a>
-
+                                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_employee_@task.TaskId"><i class="fa fa-pencil m-r-5"></i> Edit</a>
                                                                     <a class="dropdown-item" href="#">Delete</a>
+
+                                                                </div>
+                                                                <div id="edit_employee_@task.TaskId" class="modal custom-modal fade" role="dialog">
+                                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">Edit Employee</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form asp-page-handler="edit" method="post">
+                                                                                    <input type="hidden" value="@task.TaskId" name="id">
+                                                                                    <div class="form-group">
+                                                                                        <label>Task Name</label>
+                                                                                        <input type="text" name="name" class="form-control" value="@task.Name">
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Due Date</label>
+                                                                                        <div class="cal-icon"><input class="form-control datetimepicker" type="text" name="deadline" value="@task.Deadline"></div>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Task Followers</label>
+                                                                                        <select class="form-control" asp-items="Model.Employees" name="employee"></select>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label>Description</label>
+                                                                                        <textarea class="form-control" name="description"> @task.Description</textarea>
+                                                                                    </div>
+                                                                                    <div class="submit-section text-center">
+                                                                                        <button class="btn btn-primary submit-btn">Submit</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                      
                                                         <div class="task-board-body">
                                                             <div class="kanban-info">
                                                                 <span class="task-info-cont">
@@ -177,12 +212,24 @@
                                 </div>
                                 <div class="kanban-wrap">
                                     @{
+                                        if (role == 3)
+                                        {
                                         foreach (Models.Task task in Model.Progress)
                                         {
                                             <div class="card panel">
                                                 <div class="kanban-box">
                                                     <div class="task-board-header">
                                                         <span class="status-title">@task.Name</span>
+                                                    <div class="dropdown kanban-action">
+                                                        <a href="" data-toggle="dropdown">
+                                                            <i class="fa fa-ellipsis-v"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+
+                                                            <a class="dropdown-item" asp-page-handler="EditTaskStatus" asp-route-id="@task.TaskId" asp-route-status="2">Review</a>
+
+                                                        </div>
+                                                    </div>
                                                     </div>
                                                     <div class="task-board-body">
                                                         <div class="kanban-info">
@@ -190,6 +237,7 @@
                                                                 <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
                                                             </span>
                                                         </div>
+                                                      
                                                         <div class="kanban-footer">
 
                                                             <span class="task-users">
@@ -198,7 +246,36 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                </div>
+                                            }
+                                        }
+                                        if(role==2)
+                                        {
+                                            foreach (Models.Task task in Model.Progress)
+                                            {
+                                                <div class="card panel">
+                                                    <div class="kanban-box">
+                                                        <div class="task-board-header">
+                                                            <span class="status-title">@task.Name</span>
+                                                        </div>
+                                                      
+                                                        <div class="task-board-body">
+                                                            <div class="kanban-info">
+                                                                <span class="task-info-cont">
+                                                                    <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="kanban-footer">
+
+                                                                <span class="task-users">
+                                                                    @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         }
                                     }
                                 </div>
@@ -210,28 +287,70 @@
                                 </div>
                                 <div class="kanban-wrap">
                                     @{
-                                        foreach (Models.Task task in Model.Review)
+                                        if (role == 2)
                                         {
-                                            <div class="card panel">
-                                                <div class="kanban-box">
-                                                    <div class="task-board-header">
-                                                        <span class="status-title">@task.Name</span>
-                                                    </div>
-                                                    <div class="task-board-body">
-                                                        <div class="kanban-info">
-                                                            <span class="task-info-cont">
-                                                                <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="kanban-footer">
+                                            foreach (Models.Task task in Model.Review)
+                                            {
+                                                <div class="card panel">
+                                                    <div class="kanban-box">
+                                                        <div class="task-board-header">
+                                                            <span class="status-title">@task.Name</span>
 
-                                                            <span class="task-users">
-                                                                @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
-                                                            </span>
+                                                            <div class="dropdown kanban-action">
+                                                                <a href="" data-toggle="dropdown">
+                                                                    <i class="fa fa-ellipsis-v"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+
+                                                                    <a class="dropdown-item" asp-page-handler="EditTaskStatus" asp-route-id="@task.TaskId" asp-route-status="3">Done</a>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="task-board-body">
+                                                            <div class="kanban-info">
+                                                                <span class="task-info-cont">
+                                                                    <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="kanban-footer">
+
+                                                                <span class="task-users">
+                                                                    @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            }
+                                        }
+                                        if (role == 3)
+                                        {
+                                            foreach (Models.Task task in Model.Review)
+                                            {
+                                                <div class="card panel">
+                                                    <div class="kanban-box">
+                                                        <div class="task-board-header">
+                                                            <span class="status-title">@task.Name</span>
+
+                                                            
+                                                        </div>
+                                                        <div class="task-board-body">
+                                                            <div class="kanban-info">
+                                                                <span class="task-info-cont">
+                                                                    <span class="task-date"><i class="fa fa-clock-o"></i>@task.Deadline<br /></span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="kanban-footer">
+
+                                                                <span class="task-users">
+                                                                    @task.AssignedNavigation.FirstName @task.AssignedNavigation.LastName
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         }
                                     }
                                 </div>
@@ -341,6 +460,12 @@
                     </div>
                 </div>
             </div>
+           
+               
+                
+            
+            
+            </div>
             <!-- /Edit Task Modal -->
             <h1 style="color:red">@ViewData["message"]</h1>
         </div>
@@ -397,3 +522,4 @@
 
 </body>
 </html>
+
