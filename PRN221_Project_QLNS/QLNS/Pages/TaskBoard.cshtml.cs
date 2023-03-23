@@ -86,22 +86,22 @@ namespace QLNS.Pages
                 MessageType = "Personal",
                 NotificationDateTime = DateTime.Now,
             };
-                  string from = "";
-            string pass = "";
-            MailMessage mail = new MailMessage();
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-            Random r = new Random();
-            int random = r.Next(1000, 9999);
-            DateTime now2 = DateTime.Now;
-            mail.To.Add(p.Email);
-            mail.From = new MailAddress(from);
-            mail.Subject = "PRN221";
-            mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
-            smtp.EnableSsl = true;
-            smtp.Port = 587;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = new NetworkCredential(from, pass);
-           // await smtp.SendMailAsync(mail);
+            //      string from = "";
+            //string pass = "";
+            //MailMessage mail = new MailMessage();
+            //SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            //Random r = new Random();
+            //int random = r.Next(1000, 9999);
+            //DateTime now2 = DateTime.Now;
+            //mail.To.Add(p.Email);
+            //mail.From = new MailAddress(from);
+            //mail.Subject = "PRN221";
+            //mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
+            //smtp.EnableSsl = true;
+            //smtp.Port = 587;
+            //smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //smtp.Credentials = new NetworkCredential(from, pass);
+     
             _context.Tasks.Add(task);
 
             //  _context.SaveChanges();
@@ -109,10 +109,10 @@ namespace QLNS.Pages
             _context.Notifications.Add(n);
             await _context.SaveChangesAsync();
             // await notification.Clients.All.SendAsync("Load");
-            await notification.Clients.All.SendAsync("LoadMEDashboard");
+         //   await notification.Clients.All.SendAsync("LoadMEDashboard");
             //await notification.Clients.All.SendAsync("LoadNotifition");
             //notification.SendNotificationToClient(n.Message, n.Username);
-            await smtp.SendMailAsync(mail);
+      //      await smtp.SendMailAsync(mail);
             return RedirectToPage("./Taskboard");
         }
 
