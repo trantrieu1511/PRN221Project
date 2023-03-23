@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using QLNS.Data;
+using QLNS.Hubs;
+using QLNS.MiddlewareExtensions;
+using QLNS.SubscribeTableDependencies;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSignalR();
 // Add services to the container.
 builder.Services.AddRazorPages();
 
@@ -18,10 +21,16 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
 //hello
 
 //Add db context
-builder.Services.AddDbContext<PRN221_Project_QLNSContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn"));
-});
+var connectionString = builder.Configuration.GetConnectionString("MyCnn");
+builder.Services.AddDbContext<PRN221_Project_QLNSContext>(options =>
+    options.UseSqlServer(connectionString),
+    ServiceLifetime.Singleton
+);
+
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddSingleton<SubscribeNotificationTableDependency>();
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -56,9 +65,12 @@ app.UseStaticFiles();
 app.UseSession();
 
 app.UseRouting();
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.UseAuthorization();
 
 app.MapRazorPages();
-
+app.UseSqlTableDependency<SubscribeNotificationTableDependency>(connectionString);
 app.Run();
+
+

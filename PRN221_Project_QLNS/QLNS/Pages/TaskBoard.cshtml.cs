@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QLNS.Data;
+using QLNS.Hubs;
 using QLNS.Models;
 
 namespace QLNS.Pages
@@ -12,11 +14,12 @@ namespace QLNS.Pages
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PRN221_Project_QLNSContext _context;
-
-        public TaskBoardModel(PRN221_Project_QLNSContext context, IHttpContextAccessor httpContextAccessor)
+        private readonly NotificationHub notification;
+        public TaskBoardModel(PRN221_Project_QLNSContext context, IHttpContextAccessor httpContextAccessor,NotificationHub notificationHub)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            notification = notificationHub;
         }
         [BindProperty]
         public Models.Task task1 { get; set; }
@@ -66,14 +69,7 @@ namespace QLNS.Pages
         }
         public async Task<IActionResult> OnPostAdd()
         {
-            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
-            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            if (role != 2)
-            {
-                return this.RedirectToPage("/Login");
-            }
-            else
-            {
+          
                 Models.Task task = new Models.Task
                 {
                     Name = Request.Form["name"],
@@ -82,10 +78,26 @@ namespace QLNS.Pages
                     Status = 0,
                     Assigned = int.Parse(Request.Form["employee"]),
                 };
-                _context.Tasks.Add(task);
-                _context.SaveChanges();
-                return RedirectToPage("./Taskboard");
-            }
+;
+            Models.Notification n = new Models.Notification
+            {
+                Username = "lu",
+                Message = "Pending New " + task.Name,
+                MessageType = "Personal",
+                NotificationDateTime = DateTime.Now,
+            };
+            _context.Tasks.Add(task);
+         
+          //  _context.SaveChanges();
+              
+               
+                _context.Notifications.Add(n);
+               await  _context.SaveChangesAsync();
+         // await notification.Clients.All.SendAsync("Load");
+            //await notification.Clients.All.SendAsync("LoadNotifition");
+            //notification.SendNotificationToClient(n.Message, n.Username);
+            return RedirectToPage("./Taskboard");
+            
 
         }
 

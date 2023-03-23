@@ -17,8 +17,10 @@ namespace QLNS.Data
         {
         }
 
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; } 
+        public virtual DbSet<HubConnection> HubConnections { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; } 
+        public virtual DbSet<Profile> Profiles { get; set; } 
         public virtual DbSet<Models.Task> Tasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -43,16 +45,46 @@ namespace QLNS.Data
                 entity.Property(e => e.Ismanager).HasColumnName("ismanager");
 
                 entity.Property(e => e.Password)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("password");
 
                 entity.Property(e => e.Username)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("username");
+            });
+
+            modelBuilder.Entity<HubConnection>(entity =>
+            {
+                entity.ToTable("HubConnection");
+
+                entity.Property(e => e.ConnectionId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("Notification");
+
+                entity.Property(e => e.Message)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MessageType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NotificationDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Profile>(entity =>
@@ -64,31 +96,26 @@ namespace QLNS.Data
                 entity.Property(e => e.AccountId).HasColumnName("account_id");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("email");
 
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("first_name");
 
                 entity.Property(e => e.HireDate)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("hire_date");
 
                 entity.Property(e => e.Job)
-                    .IsRequired()
                     .HasMaxLength(40)
                     .IsUnicode(false)
                     .HasColumnName("job");
 
                 entity.Property(e => e.LastName)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("last_name");
@@ -125,12 +152,10 @@ namespace QLNS.Data
                     .HasColumnName("deadline");
 
                 entity.Property(e => e.Description)
-                    .IsRequired()
                     .IsUnicode(false)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(35)
                     .IsUnicode(false)
                     .HasColumnName("name");
