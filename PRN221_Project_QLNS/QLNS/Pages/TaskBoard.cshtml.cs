@@ -30,7 +30,7 @@ namespace QLNS.Pages
         public IList<Models.Task> Review { get; set; }
         public IList<Models.Task> Done { get; set; }
         public List<SelectListItem> Employees { get; set; }
-        public async System.Threading.Tasks.Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
             int id = _httpContextAccessor.HttpContext.Session.GetInt32("id") ?? 0;
@@ -39,7 +39,7 @@ namespace QLNS.Pages
             string isadmin = _httpContextAccessor.HttpContext.Session.GetString("isadmin") ?? "";
             if (role == 0)
             {
-                this.RedirectToPage("/Login");
+                return RedirectToPage("./Login");
             }
             else
             {
@@ -63,6 +63,7 @@ namespace QLNS.Pages
                     Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
                     Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
                 }
+                return Page();
             }
         }
         public async Task<IActionResult> OnPostAdd()
@@ -86,21 +87,21 @@ namespace QLNS.Pages
                 MessageType = "Personal",
                 NotificationDateTime = DateTime.Now,
             };
-                  string from = "";
+            /*string from = "";
             string pass = "";
             MailMessage mail = new MailMessage();
             SmtpClient smtp = new SmtpClient("smtp.gmail.com");
             Random r = new Random();
             int random = r.Next(1000, 9999);
             DateTime now2 = DateTime.Now;
-            mail.To.Add("l");
+            //mail.To.Add("l");
             mail.From = new MailAddress(from);
             mail.Subject = "PRN221";
             mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
             smtp.EnableSsl = true;
             smtp.Port = 587;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = new NetworkCredential(from, pass);
+            smtp.Credentials = new NetworkCredential(from, pass);*/
            // await smtp.SendMailAsync(mail);
             _context.Tasks.Add(task);
 
@@ -108,11 +109,11 @@ namespace QLNS.Pages
 
             _context.Notifications.Add(n);
             await _context.SaveChangesAsync();
-            // await notification.Clients.All.SendAsync("Load");
-            await notification.Clients.All.SendAsync("LoadMEDashboard");
+            //await notification.Clients.All.SendAsync("Load");
+            //await notification.Clients.All.SendAsync("LoadMEDashboard");
             //await notification.Clients.All.SendAsync("LoadNotifition");
             //notification.SendNotificationToClient(n.Message, n.Username);
-            await smtp.SendMailAsync(mail);
+            //await smtp.SendMailAsync(mail);
             return RedirectToPage("./Taskboard");
         }
 

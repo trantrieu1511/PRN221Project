@@ -363,3 +363,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 PRN221_Project_QLNS/QLNS/appsettings.json
+PRN221_Project_QLNS/QLNS/obj/Debug/net6.0/QLNS.csproj.FileListAbsolute.txt
