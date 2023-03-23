@@ -6,6 +6,11 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").
 connection.on("Load", function () {
     location.href = '/TaskBoard'
 });
+
+connection.on("LoadMEDashboard", function () {
+    location.href = '/EmployeeDashboard'
+});
+
 connection.start().then(function () {
     console.log('connected to hub');
 }).catch(function (err) {

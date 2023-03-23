@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QLNS.Data;
 using QLNS.Hubs;
 using QLNS.Models;
+using System.Net;
+using System.Net.Mail;
 
 namespace QLNS.Pages
 {
@@ -15,7 +17,7 @@ namespace QLNS.Pages
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PRN221_Project_QLNSContext _context;
         private readonly NotificationHub notification;
-        public TaskBoardModel(PRN221_Project_QLNSContext context, IHttpContextAccessor httpContextAccessor,NotificationHub notificationHub)
+        public TaskBoardModel(PRN221_Project_QLNSContext context, IHttpContextAccessor httpContextAccessor, NotificationHub notificationHub)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -33,7 +35,7 @@ namespace QLNS.Pages
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
             int id = _httpContextAccessor.HttpContext.Session.GetInt32("id") ?? 0;
             int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            string ismanager= _httpContextAccessor.HttpContext.Session.GetString("ismanager") ?? "";
+            string ismanager = _httpContextAccessor.HttpContext.Session.GetString("ismanager") ?? "";
             string isadmin = _httpContextAccessor.HttpContext.Session.GetString("isadmin") ?? "";
             if (role == 0)
             {
@@ -49,15 +51,15 @@ namespace QLNS.Pages
                 //}.).ToListAsync();
                 Employees = await _context.Profiles.
                     Include(a => a.Account).Where(s => s.Account.Isadmin == false && s.Account.Ismanager == false).Select(_ => new SelectListItem
-                {
-                    Value = _.ProfileId.ToString(),
-                    Text = _.FirstName + " " + _.LastName + "/" + _.Email
-                }).ToListAsync();
+                    {
+                        Value = _.ProfileId.ToString(),
+                        Text = _.FirstName + " " + _.LastName + "/" + _.Email
+                    }).ToListAsync();
 
 
-                       
-              
-                
+
+
+
                 if (_context.Tasks != null)
                 {
                     Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
@@ -69,35 +71,54 @@ namespace QLNS.Pages
         }
         public async Task<IActionResult> OnPostAdd()
         {
-          
-                Models.Task task = new Models.Task
-                {
-                    Name = Request.Form["name"],
-                    Description = Request.Form["description"],
-                    Deadline = DateTime.ParseExact(Request.Form["deadline"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
-                    Status = 0,
-                    Assigned = int.Parse(Request.Form["employee"]),
-                };
-;
+
+            Models.Task task = new Models.Task
+            {
+                Name = Request.Form["name"],
+                Description = Request.Form["description"],
+                Deadline = DateTime.ParseExact(Request.Form["deadline"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                Status = 0,
+                Assigned = int.Parse(Request.Form["employee"]),
+            };
+
+            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"])); 
+
             Models.Notification n = new Models.Notification
             {
-                Username = "lu",
+                Username = p.Account.Username,
                 Message = "Pending New " + task.Name,
                 MessageType = "Personal",
                 NotificationDateTime = DateTime.Now,
             };
+                  string from = "";
+            string pass = "";
+            MailMessage mail = new MailMessage();
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            Random r = new Random();
+            int random = r.Next(1000, 9999);
+            DateTime now2 = DateTime.Now;
+            mail.To.Add("l");
+            mail.From = new MailAddress(from);
+            mail.Subject = "PRN221";
+            mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
+            smtp.EnableSsl = true;
+            smtp.Port = 587;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Credentials = new NetworkCredential(from, pass);
+           // await smtp.SendMailAsync(mail);
             _context.Tasks.Add(task);
-         
-          //  _context.SaveChanges();
-              
-               
-                _context.Notifications.Add(n);
-               await  _context.SaveChangesAsync();
-         // await notification.Clients.All.SendAsync("Load");
+
+            //  _context.SaveChanges();
+
+            _context.Notifications.Add(n);
+            await _context.SaveChangesAsync();
+            // await notification.Clients.All.SendAsync("Load");
+            //await notification.Clients.All.SendAsync("LoadMEDashboard");
             //await notification.Clients.All.SendAsync("LoadNotifition");
             //notification.SendNotificationToClient(n.Message, n.Username);
+            await smtp.SendMailAsync(mail);
             return RedirectToPage("./Taskboard");
-            
+
 
         }
 
@@ -113,7 +134,7 @@ namespace QLNS.Pages
             else
             {
                 int id = int.Parse(Request.Form["id"]);
-                Models.Task task = _context.Tasks.Where(_ => _.TaskId ==id).FirstOrDefault();
+                Models.Task task = _context.Tasks.Where(_ => _.TaskId == id).FirstOrDefault();
                 task.Name = Request.Form["name"];
                 task.Description = Request.Form["description"];
                 task.Deadline = DateTime.ParseExact(Request.Form["deadline"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
