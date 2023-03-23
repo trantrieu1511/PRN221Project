@@ -13,6 +13,10 @@ html {
   min-height: 100%;
 }
 
+.toast {
+    background-color: #4CAF50 !important;
+}
+
 body {
   margin-bottom: 60px;
 }

@@ -4,6 +4,7 @@
             closeButton: true,
             progressBar: true,
             showMethod: 'slideDown',
+            toastClass: 'my-custom-class',
             timeOut: 55000
         };
         toastr.info(message, title);

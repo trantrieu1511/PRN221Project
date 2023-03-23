@@ -30,7 +30,7 @@ namespace QLNS.Pages
         public IList<Models.Task> Review { get; set; }
         public IList<Models.Task> Done { get; set; }
         public List<SelectListItem> Employees { get; set; }
-        public async Task<IActionResult> OnGetAsync()
+        public async System.Threading.Tasks.Task OnGetAsync()
         {
             string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
             int id = _httpContextAccessor.HttpContext.Session.GetInt32("id") ?? 0;
@@ -39,7 +39,7 @@ namespace QLNS.Pages
             string isadmin = _httpContextAccessor.HttpContext.Session.GetString("isadmin") ?? "";
             if (role == 0)
             {
-                return RedirectToPage("./Login");
+                this.RedirectToPage("/Login");
             }
             else
             {
@@ -63,7 +63,6 @@ namespace QLNS.Pages
                     Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
                     Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
                 }
-                return Page();
             }
         }
         public async Task<IActionResult> OnPostAdd()
@@ -87,73 +86,82 @@ namespace QLNS.Pages
                 MessageType = "Personal",
                 NotificationDateTime = DateTime.Now,
             };
-            /*string from = "";
-            string pass = "";
-            MailMessage mail = new MailMessage();
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-            Random r = new Random();
-            int random = r.Next(1000, 9999);
-            DateTime now2 = DateTime.Now;
-            //mail.To.Add("l");
-            mail.From = new MailAddress(from);
-            mail.Subject = "PRN221";
-            mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
-            smtp.EnableSsl = true;
-            smtp.Port = 587;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = new NetworkCredential(from, pass);*/
-           // await smtp.SendMailAsync(mail);
+            //      string from = "";
+            //string pass = "";
+            //MailMessage mail = new MailMessage();
+            //SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            //Random r = new Random();
+            //int random = r.Next(1000, 9999);
+            //DateTime now2 = DateTime.Now;
+            //mail.To.Add(p.Email);
+            //mail.From = new MailAddress(from);
+            //mail.Subject = "PRN221";
+            //mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
+            //smtp.EnableSsl = true;
+            //smtp.Port = 587;
+            //smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //smtp.Credentials = new NetworkCredential(from, pass);
+     
             _context.Tasks.Add(task);
 
             //  _context.SaveChanges();
 
             _context.Notifications.Add(n);
             await _context.SaveChangesAsync();
-            //await notification.Clients.All.SendAsync("Load");
-            //await notification.Clients.All.SendAsync("LoadMEDashboard");
+            // await notification.Clients.All.SendAsync("Load");
+         //   await notification.Clients.All.SendAsync("LoadMEDashboard");
             //await notification.Clients.All.SendAsync("LoadNotifition");
             //notification.SendNotificationToClient(n.Message, n.Username);
-            //await smtp.SendMailAsync(mail);
+      //      await smtp.SendMailAsync(mail);
             return RedirectToPage("./Taskboard");
         }
 
 
         public async Task<IActionResult> OnPostEdit()
         {
-            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
-            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            if (role != 2)
-            {
-                return this.RedirectToPage("/Login");
-            }
-            else
-            {
+         
                 int id = int.Parse(Request.Form["id"]);
                 Models.Task task = _context.Tasks.Where(_ => _.TaskId == id).FirstOrDefault();
                 task.Name = Request.Form["name"];
                 task.Description = Request.Form["description"];
                 task.Deadline = DateTime.ParseExact(Request.Form["deadline"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                 task.Assigned = int.Parse(Request.Form["employee"]);
-                _context.Tasks.Update(task);
-                _context.SaveChanges();
-                return RedirectToPage("./Taskboard");
-            }
+             //   _context.Tasks.Update(task);
+            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"]));
+
+            Models.Notification n = new Models.Notification
+            {
+                Username = p.Account.Username,
+                Message = "Edit update " + task.Name,
+                MessageType = "Personal",
+                NotificationDateTime = DateTime.Now,
+            };
+            _context.Tasks.Update(task);
+            _context.Notifications.Add(n);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Taskboard");
+            
         }
         public async Task<IActionResult> OnGetDeleteTask(int id)
         {
-            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
-            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            if (role != 2)
-            {
-                return this.RedirectToPage("/Login");
-            }
-            else
-            {
+           
+            
                 Models.Task task = _context.Tasks.Where(_ => _.TaskId == id).FirstOrDefault();
-                _context.Tasks.Remove(task);
-                _context.SaveChanges();
-                return RedirectToPage("./Taskboard");
-            }
+
+            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"]));
+
+            Models.Notification n = new Models.Notification
+            {
+                Username = p.Account.Username,
+                Message = "Delete " + task.Name,
+                MessageType = "Personal",
+                NotificationDateTime = DateTime.Now,
+            };
+            _context.Tasks.Remove(task);
+            _context.Notifications.Add(n);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Taskboard");
+            
         }
         public async Task<IActionResult> OnGetEditTaskStatus(int id, int status)
         {

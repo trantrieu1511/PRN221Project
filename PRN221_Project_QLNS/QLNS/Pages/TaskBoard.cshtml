@@ -125,7 +125,10 @@
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label>Task Followers</label>
-                                                                                        <select class="form-control" asp-items="Model.Employees" name="employee"></select>
+                                                                                       
+                                                                                        <label asp-for="@task.Assigned" class="control-label">Category</label>
+                                                                                        <select asp-for="@task.Assigned" class="form-control" asp-items="Model.Employees" name="employee"></select>
+                                                                                        <span asp-validation-for="@task.Assigned" class="text-danger"></span>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label>Description</label>
