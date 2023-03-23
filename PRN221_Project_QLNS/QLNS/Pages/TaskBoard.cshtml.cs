@@ -119,40 +119,49 @@ namespace QLNS.Pages
 
         public async Task<IActionResult> OnPostEdit()
         {
-            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
-            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            if (role != 2)
-            {
-                return this.RedirectToPage("/Login");
-            }
-            else
-            {
+         
                 int id = int.Parse(Request.Form["id"]);
                 Models.Task task = _context.Tasks.Where(_ => _.TaskId == id).FirstOrDefault();
                 task.Name = Request.Form["name"];
                 task.Description = Request.Form["description"];
                 task.Deadline = DateTime.ParseExact(Request.Form["deadline"], "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                 task.Assigned = int.Parse(Request.Form["employee"]);
-                _context.Tasks.Update(task);
-                _context.SaveChanges();
-                return RedirectToPage("./Taskboard");
-            }
+             //   _context.Tasks.Update(task);
+            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"]));
+
+            Models.Notification n = new Models.Notification
+            {
+                Username = p.Account.Username,
+                Message = "Edit update " + task.Name,
+                MessageType = "Personal",
+                NotificationDateTime = DateTime.Now,
+            };
+            _context.Tasks.Update(task);
+            _context.Notifications.Add(n);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Taskboard");
+            
         }
         public async Task<IActionResult> OnGetDeleteTask(int id)
         {
-            string user = _httpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
-            int role = _httpContextAccessor.HttpContext.Session.GetInt32("role") ?? 0;
-            if (role != 2)
-            {
-                return this.RedirectToPage("/Login");
-            }
-            else
-            {
+           
+            
                 Models.Task task = _context.Tasks.Where(_ => _.TaskId == id).FirstOrDefault();
-                _context.Tasks.Remove(task);
-                _context.SaveChanges();
-                return RedirectToPage("./Taskboard");
-            }
+
+            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"]));
+
+            Models.Notification n = new Models.Notification
+            {
+                Username = p.Account.Username,
+                Message = "Delete " + task.Name,
+                MessageType = "Personal",
+                NotificationDateTime = DateTime.Now,
+            };
+            _context.Tasks.Remove(task);
+            _context.Notifications.Add(n);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Taskboard");
+            
         }
         public async Task<IActionResult> OnGetEditTaskStatus(int id, int status)
         {
