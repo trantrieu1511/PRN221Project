@@ -56,10 +56,6 @@ namespace QLNS.Pages
                         Text = _.FirstName + " " + _.LastName + "/" + _.Email
                     }).ToListAsync();
 
-
-
-
-
                 if (_context.Tasks != null)
                 {
                     Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
@@ -81,7 +77,7 @@ namespace QLNS.Pages
                 Assigned = int.Parse(Request.Form["employee"]),
             };
 
-            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"])); 
+            Profile p = _context.Profiles.Include(p => p.Account).FirstOrDefault(p => p.ProfileId == int.Parse(Request.Form["employee"]));
 
             Models.Notification n = new Models.Notification
             {
@@ -113,13 +109,11 @@ namespace QLNS.Pages
             _context.Notifications.Add(n);
             await _context.SaveChangesAsync();
             // await notification.Clients.All.SendAsync("Load");
-            //await notification.Clients.All.SendAsync("LoadMEDashboard");
+            await notification.Clients.All.SendAsync("LoadMEDashboard");
             //await notification.Clients.All.SendAsync("LoadNotifition");
             //notification.SendNotificationToClient(n.Message, n.Username);
             await smtp.SendMailAsync(mail);
             return RedirectToPage("./Taskboard");
-
-
         }
 
 
