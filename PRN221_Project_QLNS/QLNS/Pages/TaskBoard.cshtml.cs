@@ -93,7 +93,7 @@ namespace QLNS.Pages
             Random r = new Random();
             int random = r.Next(1000, 9999);
             DateTime now2 = DateTime.Now;
-            mail.To.Add("l");
+            mail.To.Add(p.Email);
             mail.From = new MailAddress(from);
             mail.Subject = "PRN221";
             mail.Body = "New Pending:" + task.Deadline.ToString()+"còn "+(task.Deadline-now2) +" day";
