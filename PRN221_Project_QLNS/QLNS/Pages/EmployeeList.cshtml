@@ -110,6 +110,7 @@
                                         <th>Email</th>
                                         <th>Mobile</th>
                                         <th class="text-nowrap">Join Date</th>
+                                        <th>Job</th>
                                         <th class="text-right no-sort">Action</th>
                                     </tr>
                                 </thead>
@@ -124,6 +125,7 @@
                                                 <td>@item.Email</td>
                                                 <td>@item.PhoneNumber</td>
                                                 <td>@item.HireDate</td>
+                                                <td>@item.Job</td>
                                                 <td class="text-right">
                                                     <div class="dropdown dropdown-action">
                                                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
@@ -146,36 +148,42 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <form asp-page-handler="edit" method="post">
+                                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                                             <input type="hidden" value="@item.ProfileId" name="id">
                                                                 <div class="row">
                                                                     <div class="col-sm-6">
                                                                         <div class="form-group">
                                                                             <label class="col-form-label">First Name <span class="text-danger">*</span></label>
-                                                                            <input class="form-control" type="text" name="firstname" value="@item.FirstName">
+                                                                            <input class="form-control" asp-for="ProfileDAO.FirstName" value="@item.FirstName">
+                                                                            <span asp-validation-for="ProfileDAO.FirstName" class="text-danger"></span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="form-group">
                                                                             <label class="col-form-label">Last Name</label>
-                                                                            <input class="form-control" type="text" name="lastname" value="@item.LastName">
+                                                                            <input class="form-control" asp-for="ProfileDAO.LastName" value="@item.LastName">
+                                                                             <span asp-validation-for="ProfileDAO.LastName" class="text-danger"></span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="form-group">
                                                                             <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                                                                            <input class="form-control" type="email" name="email" value="@item.Email">
+                                                                            <input class="form-control" asp-for="ProfileDAO.Email" value="@item.Email">
+                                                                            <span asp-validation-for="ProfileDAO.Email" class="text-danger"></span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="form-group">
                                                                             <label class="col-form-label">Phone Number</label>
-                                                                            <input class="form-control" type="text" name="phone" value="@item.PhoneNumber">
+                                                                            <input class="form-control" asp-for="ProfileDAO.PhoneNumber" value="@item.PhoneNumber">
+                                                                            <span asp-validation-for="ProfileDAO.PhoneNumber" class="text-danger"></span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <div class="form-group">
                                                                             <label class="col-form-label">Job <span class="text-danger">*</span></label>
-                                                                            <input class="form-control" type="text" name="job" value="@item.Job">
+                                                                            <input class="form-control" asp-for="ProfileDAO.Job" value="@item.Job">
+                                                                            <span asp-validation-for="ProfileDAO.Job" class="text-danger"></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -236,41 +244,48 @@
                         </div>
                         <div class="modal-body">
                             <form asp-page-handler="add" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="col-form-label">First Name <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="firstname">
+                                            <input class="form-control" asp-for="ProfileDAO.FirstName">
+                                            <span asp-validation-for="ProfileDAO.FirstName" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="col-form-label">Last Name</label>
-                                            <input class="form-control" type="text" name="lastname">
+                                            <input class="form-control" asp-for="ProfileDAO.LastName">
+                                             <span asp-validation-for="ProfileDAO.LastName" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="col-form-label">Username <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="username">
+                                            <input class="form-control" asp-for="AccountDAO.Username">
+                                            <span asp-validation-for="AccountDAO.Username" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="email" name="email">
+                                            <input class="form-control" type="email" asp-for="ProfileDAO.Email">
+                                            <span asp-validation-for="ProfileDAO.Email" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="col-form-label">Phone Number</label>
-                                            <input class="form-control" type="text" name="phone">
+                                            <input class="form-control" asp-for="ProfileDAO.PhoneNumber">
+                                            <span asp-validation-for="ProfileDAO.PhoneNumber" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="col-form-label">Job <span class="text-danger">*</span></label>
-                                            <input class="form-control" type="text" name="job">
+                                            <input class="form-control" asp-for="ProfileDAO.Job">
+                                            <span asp-validation-for="ProfileDAO.Job" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -312,6 +327,10 @@
 
     <!-- Custom JS -->
     <script src="../assets/js/app.js"></script>
+
+    @section scripts{
+        <partial name="_ValidationScriptsPartial" />
+    }
 
 </body>
 </html>
