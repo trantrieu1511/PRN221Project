@@ -58,10 +58,21 @@ namespace QLNS.Pages
 
                 if (_context.Tasks != null)
                 {
-                    Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0).ToListAsync();
-                    Progress = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 1).ToListAsync();
-                    Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
-                    Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
+                    if (isadmin == "true" && ismanager == "true")
+                    {
+                        Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0 && _.AssignedNavigation.Account.Username.Equals(user)).ToListAsync();
+                        Progress = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 1 && _.AssignedNavigation.Account.Username.Equals(user)).ToListAsync();
+                        Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
+                        Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
+                    }
+                    else
+                    {
+                        Pending = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 0 ).ToListAsync();
+                        Progress = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 1).ToListAsync();
+                        Review = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 2).ToListAsync();
+                        Done = await _context.Tasks.Include(_ => _.AssignedNavigation).Where(_ => _.Status == 3).ToListAsync();
+                    }
+                
                 }
             }
         }
