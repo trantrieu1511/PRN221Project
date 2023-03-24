@@ -37,6 +37,12 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
+    <style>
+        .toast-info {
+            background-color: #3276b1;
+        }
+    </style>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
@@ -78,7 +84,7 @@
                                 <div class="kanban-wrap">
                                     @{
 
-                                        if (role == 2)
+                                        if (role == 2) //Manager
                                         {
                                             foreach (Models.Task task in Model.Pending)
                                             {
@@ -170,8 +176,6 @@
                                                                 </a>
                                                                 <div class="dropdown-menu dropdown-menu-right">
                                                                     <a class="dropdown-item" asp-page-handler="EditTaskStatus" asp-route-id="@task.TaskId" asp-route-status="1">Progress</a>
-
-
                                                                 </div>
                                                             </div>
                                                         </div>

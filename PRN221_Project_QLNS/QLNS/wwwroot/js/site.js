@@ -1,4 +1,4 @@
-﻿function DisplayGeneralNotification(message, title) {
+﻿/*function DisplayGeneralNotification(message, title) {
     setTimeout(function () {
         toastr.options = {
             closeButton: true,
@@ -20,7 +20,8 @@ function DisplayPersonalNotification(message, title) {
             showMethod: 'slideDown',
             timeOut: 55000
         };
-        toastr.info(message, title);
+        toastr.success(message, title);
 
     }, 1300);
 }
+*/

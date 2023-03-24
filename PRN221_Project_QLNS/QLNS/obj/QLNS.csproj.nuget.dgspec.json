@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\source\\repos\\PRN221Project\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj": {}
+    "E:\\FPT_University\\Learning\\Spring2023\\PRN221\\Project\\QLNS\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\source\\repos\\PRN221Project\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj": {
+    "E:\\FPT_University\\Learning\\Spring2023\\PRN221\\Project\\QLNS\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\PRN221Project\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj",
+        "projectUniqueName": "E:\\FPT_University\\Learning\\Spring2023\\PRN221\\Project\\QLNS\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj",
         "projectName": "QLNS",
-        "projectPath": "C:\\Users\\Admin\\source\\repos\\PRN221Project\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\PRN221Project\\PRN221_Project_QLNS\\QLNS\\obj\\",
+        "projectPath": "E:\\FPT_University\\Learning\\Spring2023\\PRN221\\Project\\QLNS\\PRN221_Project_QLNS\\QLNS\\QLNS.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "E:\\FPT_University\\Learning\\Spring2023\\PRN221\\Project\\QLNS\\PRN221_Project_QLNS\\QLNS\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
