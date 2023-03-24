@@ -63,6 +63,7 @@ namespace QLNS.Hubs
     public async System.Threading.Tasks.Task SaveUserConnection(string username)
         {
             var connectionId = Context.ConnectionId;
+            
             if (username != "M3ijn")
             {
                 HubConnection hubConnection = new HubConnection
