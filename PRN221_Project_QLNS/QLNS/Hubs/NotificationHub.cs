@@ -4,10 +4,8 @@ using QLNS.Models;
 
 namespace QLNS.Hubs
 {
-    public class NotificationHub:Hub
+    public class NotificationHub : Hub
     {
-
-
         private readonly PRN221_Project_QLNSContext dbContext;
 
         public NotificationHub(PRN221_Project_QLNSContext dbContext)
@@ -23,7 +21,7 @@ namespace QLNS.Hubs
         public async System.Threading.Tasks.Task SendNotificationToClient(string message, string username)
         {
             var hubConnections = dbContext.HubConnections.Where(con => con.Username == username).ToList();
-            
+
             foreach (var hubConnection in hubConnections)
             {
                 await Clients.Client(hubConnection.ConnectionId).SendAsync("ReceivedPersonalNotification", message, username);
@@ -31,8 +29,8 @@ namespace QLNS.Hubs
         }
         public async System.Threading.Tasks.Task SendNotificationToGroup(string message, List<string> username)
         {
-           
-           
+
+
         }
         public static int notificationCounter = 0;
         public static List<string> messages = new();
@@ -51,31 +49,30 @@ namespace QLNS.Hubs
         {
             await Clients.All.SendAsync("LoadNotification", messages, notificationCounter);
         }
-    
-    public override System.Threading.Tasks.Task OnConnectedAsync()
+
+        public override System.Threading.Tasks.Task OnConnectedAsync()
         {
             Clients.Caller.SendAsync("OnConnected");
             return base.OnConnectedAsync();
         }
-       
 
-    
-    public async System.Threading.Tasks.Task SaveUserConnection(string username)
+        public async System.Threading.Tasks.Task SaveUserConnection(string username)
         {
-            var connectionId = Context.ConnectionId;
-            
-            if (username != "M3ijn")
+            using (PRN221_Project_QLNSContext context = new PRN221_Project_QLNSContext())
             {
-                HubConnection hubConnection = new HubConnection
+                var connectionId = Context.ConnectionId;
+                if (username != context.Accounts.FirstOrDefault(a => a.Isadmin || a.Ismanager).Username)
                 {
-                    ConnectionId = connectionId,
-                    Username = username
-                };
+                    HubConnection hubConnection = new HubConnection
+                    {
+                        ConnectionId = connectionId,
+                        Username = username
+                    };
 
-                dbContext.HubConnections.Add(hubConnection);
-                await dbContext.SaveChangesAsync();
+                    dbContext.HubConnections.Add(hubConnection);
+                    await dbContext.SaveChangesAsync();
+                }
             }
-          
         }
 
         //public override System.Threading.Tasks.Task OnDisconnectedAsync(Exception? exception)

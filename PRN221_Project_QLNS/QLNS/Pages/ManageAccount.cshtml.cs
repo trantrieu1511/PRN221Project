@@ -21,5 +21,16 @@ namespace QLNS.Pages
 		{
 			Accounts = await _context.Accounts.ToListAsync();
 		}
+        //public async Task<IActionResult> OnPostDelete()
+        //{
+        //    int id = int.Parse(Request.Form["id"]);
+        //    Account acc = _context.Accounts.Where(_ => _.AccountId == id).FirstOrDefault();
+        //    Profile profile = _context.Profiles.Where(_ => _.AccountId == id).
+        //    _context.Profiles.Remove(profile);
+        //    _context.SaveChanges();
+        //    _context.Accounts.Remove(acc);
+        //    _context.SaveChanges();
+        //    return RedirectToPage("./EmployeeList");
+        //}
     }
 }
